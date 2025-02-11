@@ -1,0 +1,5 @@
+11.2.2025
+  Implemented all services
+      -> https://github.com/alex-stefanov/Portfi/tree/hotfix/test-implementation/core/Portfi.Infrastructure/Services
+  Integraded and tested them in the controllers
+      -> https://github.com/alex-stefanov/Portfi/tree/hotfix/test-implementation/core/Portfi.Core/Controllers
