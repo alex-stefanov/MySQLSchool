@@ -2,12 +2,19 @@
 
 namespace MySQLSchool.Logging.Loggers;
 
-public class TextLogger(
-    string filePath)
+/// <summary>
+/// A logger that stores logs in a text file.
+/// </summary>
+public class TextLogger (
+    string filePath )
     : INTERFACES.ILogger
 {
     private readonly List<string> _logs = [];
 
+    /// <summary>
+    /// Logs a specified message.
+    /// </summary>
+    /// <param name="message">The message to be logged.</param>
     public void Log(
         string message)
     {
@@ -15,6 +22,9 @@ public class TextLogger(
         _logs.Add(logEntry);
     }
 
+    /// <summary>
+    /// Saves the collected logs to the text file.
+    /// </summary>
     public void SaveLog()
     {
         try

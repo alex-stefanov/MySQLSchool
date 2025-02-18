@@ -3,12 +3,19 @@ using INTERFACES = MySQLSchool.Logging.Interfaces;
 
 namespace MySQLSchool.Logging.Loggers;
 
+/// <summary>
+/// A logger that stores logs in an Excel file.
+/// </summary>
 public class ExcelLogger(
     string filePath)
     : INTERFACES.ILogger
 {
     private readonly List<string> _logs = [];
 
+    /// <summary>
+    /// Logs a specified message.
+    /// </summary>
+    /// <param name="message">The message to be logged.</param>
     public void Log(
         string message)
     {
@@ -16,6 +23,9 @@ public class ExcelLogger(
         _logs.Add(logEntry);
     }
 
+    /// <summary>
+    /// Saves the collected logs to the Excel file.
+    /// </summary>
     public void SaveLog()
     {
         try
@@ -30,8 +40,8 @@ public class ExcelLogger(
                 ? workbook.Worksheet(1)
                 : workbook.Worksheets.Add("Log");
 
-            var lastRow = worksheet.LastRowUsed()?.RowNumber() 
-                          ?? 0;
+            var lastRow = worksheet.LastRowUsed()?.RowNumber()
+                ?? 0;
 
             for (var i = 0; i < _logs.Count; i++)
             {

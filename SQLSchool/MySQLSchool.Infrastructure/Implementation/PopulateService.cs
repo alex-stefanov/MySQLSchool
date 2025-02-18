@@ -15,12 +15,16 @@ using IT_QUERIES = MySQLSchool.Common.Queries.InsertTableQueries;
 
 namespace MySQLSchool.Infrastructure.Implementation;
 
+/// <summary>
+/// Implements the <see cref="INTERFACES.IPopulateService"/> interface for populating data entities in the system.
+/// </summary>
 public class PopulateService
     : INTERFACES.IPopulateService
 {
     private static readonly MySqlConnection Connection 
         = DATA.DbInitializer.GetConnection();
 
+    /// <inheritdoc/>
     public void PopulateParents(
         L_INTERFACES.ILogger logger)
     {
@@ -105,6 +109,7 @@ public class PopulateService
         Console.ReadLine();
     }
 
+    /// <inheritdoc/>
     public void PopulateSubjects(
         L_INTERFACES.ILogger logger)
     {
@@ -157,6 +162,7 @@ public class PopulateService
         Console.ReadLine();
     }
 
+    /// <inheritdoc/>
     public void PopulateTeachers(
         L_INTERFACES.ILogger logger)
     {
@@ -275,6 +281,7 @@ public class PopulateService
         Console.ReadLine();
     }
 
+    /// <inheritdoc/>
     public void PopulateClassrooms(
         L_INTERFACES.ILogger logger)
     {
@@ -350,6 +357,7 @@ public class PopulateService
         Console.ReadLine();
     }
 
+    /// <inheritdoc/>
     public void PopulateClasses(
         L_INTERFACES.ILogger logger)
     {
@@ -447,6 +455,7 @@ public class PopulateService
         Console.ReadLine();
     }
 
+    /// <inheritdoc/>
     public void PopulateStudents(
         L_INTERFACES.ILogger logger)
     {
@@ -585,6 +594,7 @@ public class PopulateService
         Console.ReadLine();
     }
 
+    /// <inheritdoc/>
     public void PopulateTeachersSubjects(
         L_INTERFACES.ILogger logger)
     {
@@ -644,6 +654,7 @@ public class PopulateService
         Console.ReadLine();
     }
 
+    /// <inheritdoc/>
     public void PopulateClassesSubjects(
         L_INTERFACES.ILogger logger)
     {
@@ -703,6 +714,7 @@ public class PopulateService
         Console.ReadLine();
     }
 
+    /// <inheritdoc/>
     public void PopulateStudentsParents(
         L_INTERFACES.ILogger logger)
     {
