@@ -58,7 +58,7 @@ public static class InsertTableQueries
     /// SQL query to assign a subject to a class in the <c>classes_subjects</c> table.
     /// </summary>
     public const string InsertClassesSubjects =
-        @"INSERT INTO classes_subjects (classe_id, subject_id) 
+        @"INSERT INTO classes_subjects (class_id, subject_id) 
           VALUES (@classId, @subjectId)";
 
     /// <summary>

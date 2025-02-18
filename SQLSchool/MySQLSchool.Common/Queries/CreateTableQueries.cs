@@ -103,7 +103,7 @@ public static class CreateTableQueries
     /// </summary>
     public const string CreateClassesSubjects =
         @"CREATE TABLE classes_subjects (
-            classe_id INT NOT NULL,
+            class_id INT NOT NULL,
             subject_id INT NOT NULL,
             PRIMARY KEY (classe_id, subject_id),
             FOREIGN KEY (classe_id) REFERENCES classes(id),

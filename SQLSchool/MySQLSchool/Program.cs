@@ -10,6 +10,8 @@ using MI_MESSAGES = MySQLSchool.Common.Messages.MenuMessages.MainPanelMessages.I
 using FI_MESSAGES = MySQLSchool.Common.Messages.MenuMessages.FunctionalityPanelMessages.InfoMessages;
 using PI_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.GeneralInfoMessages;
 using PE_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.GeneralErrorMessages;
+using MySqlConnector;
+using MySQLSchool.Data;
 
 namespace MySQLSchool;
 
@@ -25,8 +27,9 @@ public class Program
         #endregion
 
         DATA.DbInitializer.Initialize();
-        
-        L_INTERFACES.ILogger logger = new LOGGERS.TextLogger("log.txt");
+
+        //L_INTERFACES.ILogger logger = new LOGGERS.TextLogger("../../../log.txt");
+        L_INTERFACES.ILogger logger = new LOGGERS.ExcelLogger("../../../log.xlsx");
 
         var isDatabaseCreated = COMMON.SchoolOptions.IsDatabaseCreated;
 
@@ -39,7 +42,7 @@ public class Program
             try
             {
                 logger.Log(II_MESSAGES.ParentsMessage);
-                
+
                 createService.CreateParents();
             }
             catch (Exception ex)
@@ -51,7 +54,7 @@ public class Program
             try
             {
                 logger.Log(II_MESSAGES.SubjectsMessage);
-                
+
                 createService.CreateSubjects();
             }
             catch (Exception ex)
@@ -63,7 +66,7 @@ public class Program
             try
             {
                 logger.Log(II_MESSAGES.TeachersMessage);
-                
+
                 createService.CreateTeachers();
             }
             catch (Exception ex)
@@ -86,7 +89,7 @@ public class Program
             try
             {
                 logger.Log(II_MESSAGES.ClassesMessage);
-                
+
                 createService.CreateClasses();
             }
             catch (Exception ex)
@@ -98,7 +101,7 @@ public class Program
             try
             {
                 logger.Log(II_MESSAGES.StudentsMessage);
-                
+
                 createService.CreateStudents();
             }
             catch (Exception ex)
@@ -110,7 +113,7 @@ public class Program
             try
             {
                 logger.Log(II_MESSAGES.TeachersSubjectsMessage);
-                
+
                 createService.CreateTeachersSubjects();
             }
             catch (Exception ex)
@@ -122,7 +125,7 @@ public class Program
             try
             {
                 logger.Log(II_MESSAGES.ClassesSubjectsMessage);
-                
+
                 createService.CreateClassesSubjects();
             }
             catch (Exception ex)
@@ -173,7 +176,7 @@ public class Program
             }
 
             INTERFACES.IPopulateService populateService = new IMPLEMENTATIONS.PopulateService();
-            
+
             switch (choice)
             {
                 case "1":
@@ -181,7 +184,7 @@ public class Program
                         try
                         {
                             logger.Log(PI_MESSAGES.ParentsMessage);
-                            
+
                             populateService.PopulateParents(logger);
                         }
                         catch (Exception ex)
@@ -196,7 +199,7 @@ public class Program
                         try
                         {
                             logger.Log(PI_MESSAGES.SubjectsMessage);
-                            
+
                             populateService.PopulateSubjects(logger);
                         }
                         catch (Exception ex)
@@ -211,7 +214,7 @@ public class Program
                         try
                         {
                             logger.Log(PI_MESSAGES.TeachersMessage);
-                            
+
                             populateService.PopulateTeachers(logger);
                         }
                         catch (Exception ex)
@@ -226,7 +229,7 @@ public class Program
                         try
                         {
                             logger.Log(PI_MESSAGES.ClassroomsMessage);
-                            
+
                             populateService.PopulateClassrooms(logger);
                         }
                         catch (Exception ex)
@@ -241,7 +244,7 @@ public class Program
                         try
                         {
                             logger.Log(PI_MESSAGES.ClassesMessage);
-                            
+
                             populateService.PopulateClasses(logger);
                         }
                         catch (Exception ex)
@@ -256,7 +259,7 @@ public class Program
                         try
                         {
                             logger.Log(PI_MESSAGES.StudentsMessage);
-                            
+
                             populateService.PopulateStudents(logger);
                         }
                         catch (Exception ex)
@@ -271,7 +274,7 @@ public class Program
                         try
                         {
                             logger.Log(PI_MESSAGES.TeachersSubjectsMessage);
-                            
+
                             populateService.PopulateTeachersSubjects(logger);
                         }
                         catch (Exception ex)
@@ -286,7 +289,7 @@ public class Program
                         try
                         {
                             logger.Log(PI_MESSAGES.ClassesSubjectsMessage);
-                            
+
                             populateService.PopulateClassesSubjects(logger);
                         }
                         catch (Exception ex)
@@ -301,7 +304,7 @@ public class Program
                         try
                         {
                             logger.Log(PI_MESSAGES.StudentsParentsMessage);
-                            
+
                             populateService.PopulateStudentsParents(logger);
                         }
                         catch (Exception ex)
@@ -341,50 +344,63 @@ public class Program
                                 return;
                             }
 
+                            var mySqlConnection = DbInitializer.GetConnection();
+
                             switch (functionalityChoice)
                             {
                                 case "1":
                                     {
+                                        GetStudentNames(mySqlConnection);
                                         break;
                                     }
                                 case "2":
                                     {
+                                        GetTeachersNamesAndSubjectGroupedByBySubject(mySqlConnection);
                                         break;
                                     }
                                 case "3":
                                     {
+                                        GetClassesByClassAndTeachers(mySqlConnection);
                                         break;
                                     }
                                 case "4":
                                     {
+                                        GetSubjectsWithTeacherCount(mySqlConnection);
                                         break;
                                     }
                                 case "5":
                                     {
+                                        GetClassroomsIdAndCapacityOrderedByFloor(mySqlConnection);
                                         break;
                                     }
                                 case "6":
                                     {
+                                        GetStudentsClassesGroupedByClasses(mySqlConnection);
                                         break;
                                     }
                                 case "7":
                                     {
+                                        GetSpecificStudentsAndClassesGroupedByClass(mySqlConnection);
                                         break;
                                     }
                                 case "8":
                                     {
+                                        GetStudentsWithSpecificBirthday(mySqlConnection);
                                         break;
                                     }
                                 case "9":
                                     {
+                                        GetCountOfStudentsSubjectsByStudentName(mySqlConnection);
                                         break;
                                     }
                                 case "10":
                                     {
+                                        GetStudentsTeachersAndSubjects(mySqlConnection);
                                         break;
                                     }
                                 case "11":
                                     {
+                                        GetStudentsTeachersAndSubjects(mySqlConnection);
                                         break;
                                     }
                                 case "0":
@@ -407,19 +423,285 @@ public class Program
                     {
                         Console.WriteLine(MI_MESSAGES.ByeMessage);
                         logger.Log(MI_MESSAGES.ByeMessage);
-                        
+
                         return;
                     }
                 default:
                     {
                         Console.WriteLine(MI_MESSAGES.InvаlidInputMessage);
                         logger.Log(MI_MESSAGES.InvаlidInputMessage);
-                        
+
                         break;
                     }
             }
-            
+
             logger.SaveLog();
         }
+    }
+
+    private static void DefaultSeed(
+        bool isDatabaseCreated,
+        MySqlConnection connection)
+    {
+        var seed = new string[]
+        {
+            @"INSERT INTO parents (parent_code, full_name, phone, email)
+                VALUES 
+                ('P001', 'Мария Иванова', '0888123456', 'maria.ivanova@example.com'),
+                ('P002', 'Георги Петров', '0877123456', 'georgi.petroff@example.com'),
+                ('P003', 'Иван Димитров', '0899123456', 'ivan.dimitrov@example.com');",
+
+            @"INSERT INTO subjects (title, level)
+                VALUES 
+                ('Математика', 'Основно'),
+                ('Български език', 'Основно'),
+                ('Физика', 'Средно'),
+                ('История', 'Основно');",
+
+            @"INSERT INTO teachers (teacher_code, full_name, email, phone, working_days, date_of_birth, gender)
+                VALUES
+                ('T001', 'Мария Петрова', 'maria.petrova@example.com', '0882345678', 5, '1980-02-15', 'Жена'),
+                ('T002', 'Иван Колев', 'ivan.kolev@example.com', '0892345678', 4, '1975-06-20', 'Мъж'),
+                ('T003', 'Георги Георгиев', 'georgi.georgiev@example.com', '0872345678', 5, '1983-11-10', 'Мъж');",
+
+            @"INSERT INTO classrooms (floor, capacity, description)
+                VALUES
+                (1, 30, 'Класна стая с проектор'),
+                (2, 25, 'Стая с висока осветеност'),
+                (3, 20, 'Малка стая за специализирани занятия');",
+
+            @"INSERT INTO classes (class_number, class_letter, class_teacher_id, classroom_id)
+                VALUES
+                (11, 'б', 1, 1), 
+                (11, 'в', 2, 2), 
+                (11, 'г', 3, 3);",
+
+            @"INSERT INTO students (student_code, full_name, email, phone, is_active, gender, date_of_birth, class_id)
+                VALUES
+                ('S001', 'Петър Петров', 'peter.petroff@example.com', '0881234567', TRUE, 'Мъж', '2005-09-10', 1),
+                ('S002', 'Иван Иванов', 'ivan.ivanov@example.com', '0891234567', TRUE, 'Мъж', '2005-12-15', 1),
+                ('S003', 'Мария Петрова', 'maria.petrova@example.com', '0871234567', TRUE, 'Жена', '2005-07-20', 2);",
+
+            @"INSERT INTO teachers_subjects (teacher_id, subject_id)
+                VALUES
+                (1, 1),
+                (2, 2),
+                (3, 3);",
+
+            @"INSERT INTO classes_subjects (class_id, subject_id)
+                VALUES
+                (1, 1),
+                (1, 2),
+                (2, 3);",
+
+            @"INSERT INTO students_parents (student_id, parent_id)
+                VALUES
+                (1, 1),
+                (2, 2),
+                (3, 3);",
+        };
+
+        foreach (var info in seed)
+        {
+            using var command = new MySqlCommand(info, connection);
+
+            var a = command.ExecuteNonQuery();
+        }
+    }
+
+    static void GetStudentNames(
+        MySqlConnection connection)
+    {
+        using MySqlCommand command = new("SELECT s.full_name FROM students s JOIN classes c ON s.class_id = c.id WHERE c.class_number = 11 AND c.class_letter = 'б'",
+            connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]}");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GetTeachersNamesAndSubjectGroupedByBySubject(
+        MySqlConnection connection)
+    {
+        using MySqlCommand command = new("SELECT sub.title AS subject_name, GROUP_CONCAT(t.full_name SEPARATOR ', ') AS teachers FROM teachers_subjects ts JOIN teachers t ON ts.teacher_id = t.id JOIN subjects sub ON ts.subject_id = sub.id GROUP BY sub.title",
+           connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GetClassesByClassAndTeachers(
+        MySqlConnection connection)
+    {
+        using MySqlCommand command = new("SELECT c.class_number, c.class_letter, t.full_name FROM classes c JOIN teachers t ON t.id = c.class_teacher_id",
+            connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]}{sqlDataReader[1]} - {sqlDataReader[2]}");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GetSubjectsWithTeacherCount(
+        MySqlConnection connection)
+    {
+        using MySqlCommand command = new("SELECT s.title AS 'Предмет на учителя', COUNT(ts.teacher_id) AS 'Броят на учителите' FROM teachers t JOIN teachers_subjects ts ON t.id = ts.teacher_id JOIN subjects s ON ts.subject_id = s.id GROUP BY s.title",
+            connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GetClassroomsIdAndCapacityOrderedByFloor(
+        MySqlConnection connection)
+    {
+        using MySqlCommand command = new("SELECT classrooms.id, classrooms.capacity FROM classrooms WHERE classrooms.capacity > 26 ORDER BY classrooms.floor ASC",
+             connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GetStudentsClassesGroupedByClasses(
+        MySqlConnection connection)
+    {
+        using MySqlCommand command = new MySqlCommand("SELECT CONCAT(c.class_number, c.class_letter) AS class_name, GROUP_CONCAT(s.full_name SEPARATOR ', ') AS student_names FROM students s JOIN classes c ON s.class_id = c.id GROUP BY c.class_number, c.class_letter ORDER BY c.class_number ASC, c.class_letter ASC; ",
+            connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GetSpecificStudentsAndClassesGroupedByClass(
+        MySqlConnection connection)
+    {
+        Console.Write("Въведи клас: ");
+        int classNumber = int.Parse(Console.ReadLine());
+
+        Console.WriteLine();
+
+        Console.Write("Въведи буква на класа: ");
+        string classLetter = Console.ReadLine();
+
+        using MySqlCommand command = new($"SELECT s.full_name FROM students s JOIN classes c ON s.class_id = c.id WHERE c.class_number = {classNumber} AND c.class_letter = '{classLetter}'",
+                connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]}");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GetStudentsWithSpecificBirthday(
+        MySqlConnection connection)
+    {
+        Console.Write("Въведи рожден ден(yyyy-MM-dd): ");
+        string dateOfBirth = Console.ReadLine();
+
+        using MySqlCommand command = new($"SELECT students.full_name FROM students WHERE students.date_of_birth = '{dateOfBirth}'",
+                connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]}");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GetCountOfStudentsSubjectsByStudentName(
+        MySqlConnection connection)
+    {
+        Console.Write("Въведи име на ученик: ");
+        string studentName = Console.ReadLine();
+
+        using MySqlCommand command = new($"SELECT COUNT(sj.id) AS subject_count FROM students s JOIN classes c ON c.id = s.class_id JOIN classes_subjects cs ON c.id = cs.class_id JOIN subjects sj ON sj.id = cs.subject_id WHERE s.full_name = '{studentName}';",
+                connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]}");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GetStudentsTeachersAndSubjects(
+        MySqlConnection connection)
+    {
+        Console.Write("Въведи име на ученик: ");
+        string studentName = Console.ReadLine();
+
+        using MySqlCommand command = new($"SELECT t.full_name AS 'Учител', sj.title AS 'Предмет' FROM students s JOIN classes c ON c.id = s.id JOIN teachers t ON t.id = c.class_teacher_id JOIN teachers_subjects ts ON ts.teacher_id = t.id JOIN subjects sj ON sj.id = ts.subject_id WHERE s.full_name = '{studentName}'",
+            connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]}");
+        }
+
+        Console.ReadLine();
+    }
+
+    static void GetClassByParentEmail(
+        MySqlConnection connection)
+    {
+        Console.Write("Въведи имейл на родител: ");
+        string parentEmail = Console.ReadLine();
+
+        using MySqlCommand command = new($"SELECT c.class_number, c.class_letter FROM parents p JOIN students_parents sp ON p.id = sp.parent_id JOIN students s ON s.id = sp.student_id JOIN classes c ON s.class_id = c.id WHERE p.email = '{parentEmail}'",
+            connection);
+
+        using MySqlDataReader sqlDataReader = command.ExecuteReader();
+
+        while (sqlDataReader.Read())
+        {
+            Console.WriteLine($"{sqlDataReader[0]}{sqlDataReader[1]}");
+        }
+
+        Console.ReadLine();
     }
 }
