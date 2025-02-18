@@ -1,32 +1,34 @@
-﻿namespace MySQLSchool.Infrastructure.Interfaces;
+﻿//TODO:Add xml doc
+
+namespace MySQLSchool.Infrastructure.Interfaces;
 
 public interface ISelectService
 {
-    void GetStudentsNames();
+    string GetStudentsNames();
 
-    void GetTeachersNamesAndSubject();
+    string GetTeachersNamesAndSubject();
 
-    void GetClassesAndTeacher();
+    string GetClassesAndTeacher();
 
-    void GetSubjectsWithTeacherCount();
+    string GetSubjectsWithTeacherCount();
 
-    void GetClassroomsOrderedByFloor();
+    string GetClassroomsOrderedByFloor();
 
-    void GetStudentsByClasses();
+    string GetStudentsByClasses();
 
-    void GetAllStudentsByClass(
+    string GetAllStudentsByClass(
         int classNumber,
         char classLetter);
 
-    void GetStudentsWithSpecificBirthday(
+    string GetStudentsWithSpecificBirthday(
         string dateOfBirth);
 
-    void GetCountOfSubjectsByStudent(
+    string GetCountOfSubjectsByStudent(
         string studentName);
 
-    void GetTeachersAndSubjectsByStudent(
+    string GetTeachersAndSubjectsByStudent(
         string studentName);
 
-    void GetClassByParentEmail(
+    string GetClassByParentEmail(
         string parentEmail);
 }

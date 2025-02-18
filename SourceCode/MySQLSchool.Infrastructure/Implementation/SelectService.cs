@@ -1,4 +1,5 @@
-﻿using MySqlConnector;
+﻿using System.Text;
+using MySqlConnector;
 using DATA = MySQLSchool.Data;
 using INTERFACES = MySQLSchool.Infrastructure.Interfaces;
 
@@ -10,188 +11,196 @@ public class SelectService
     private static readonly MySqlConnection Connection
        = DATA.DbInitializer.GetConnection();
 
-    public void GetStudentsNames()
+    public string GetStudentsNames()
     {
         using MySqlCommand command = new("SELECT s.full_name FROM students s JOIN classes c ON s.class_id = c.id WHERE c.class_number = 11 AND c.class_letter = 'б'",
             Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 
-    public void GetTeachersNamesAndSubject()
+    public string GetTeachersNamesAndSubject()
     {
         using MySqlCommand command = new("SELECT sub.title AS subject_name, GROUP_CONCAT(t.full_name SEPARATOR ', ') AS teachers FROM teachers_subjects ts JOIN teachers t ON ts.teacher_id = t.id JOIN subjects sub ON ts.subject_id = sub.id GROUP BY sub.title",
            Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 
-    public void GetClassesAndTeacher()
+    public string GetClassesAndTeacher()
     {
         using MySqlCommand command = new("SELECT c.class_number, c.class_letter, t.full_name FROM classes c JOIN teachers t ON t.id = c.class_teacher_id",
             Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]}{sqlDataReader[1]} - {sqlDataReader[2]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]}{sqlDataReader[1]} - {sqlDataReader[2]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 
-    public void GetSubjectsWithTeacherCount()
+    public string GetSubjectsWithTeacherCount()
     {
         using MySqlCommand command = new("SELECT s.title AS 'Предмет на учителя', COUNT(ts.teacher_id) AS 'Броят на учителите' FROM teachers t JOIN teachers_subjects ts ON t.id = ts.teacher_id JOIN subjects s ON ts.subject_id = s.id GROUP BY s.title",
             Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 
-    public void GetClassroomsOrderedByFloor()
+    public string GetClassroomsOrderedByFloor()
     {
         using MySqlCommand command = new("SELECT classrooms.id, classrooms.capacity FROM classrooms WHERE classrooms.capacity > 26 ORDER BY classrooms.floor ASC",
              Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 
-    public void GetStudentsByClasses()
+    public string GetStudentsByClasses()
     {
         using MySqlCommand command = new("SELECT CONCAT(c.class_number, c.class_letter) AS class_name, GROUP_CONCAT(s.full_name SEPARATOR ', ') AS student_names FROM students s JOIN classes c ON s.class_id = c.id GROUP BY c.class_number, c.class_letter ORDER BY c.class_number ASC, c.class_letter ASC; ",
             Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]} - {sqlDataReader[1]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 
-    public void GetAllStudentsByClass(
+    public string GetAllStudentsByClass(
         int classNumber,
         char classLetter)
     {
-        Console.Write("Въведи клас: ");
-
-        Console.WriteLine();
-
-        Console.Write("Въведи буква на класа: ");
-
         using MySqlCommand command = new($"SELECT s.full_name FROM students s JOIN classes c ON s.class_id = c.id WHERE c.class_number = {classNumber} AND c.class_letter = '{classLetter}'",
-                Connection);
+            Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 
-    public void GetStudentsWithSpecificBirthday(
+    public string GetStudentsWithSpecificBirthday(
         string dateOfBirth)
     {
-        Console.Write("Въведи рожден ден(yyyy-MM-dd): ");
-
         using MySqlCommand command = new($"SELECT students.full_name FROM students WHERE students.date_of_birth = '{dateOfBirth}'",
-                Connection);
+            Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 
-    public void GetCountOfSubjectsByStudent(
+    public string GetCountOfSubjectsByStudent(
         string studentName)
     {
-        Console.Write("Въведи име на ученик: ");
-
         using MySqlCommand command = new($"SELECT COUNT(sj.id) AS subject_count FROM students s JOIN classes c ON c.id = s.class_id JOIN classes_subjects cs ON c.id = cs.class_id JOIN subjects sj ON sj.id = cs.subject_id WHERE s.full_name = '{studentName}';",
-                Connection);
+            Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 
-    public void GetTeachersAndSubjectsByStudent(
+    public string GetTeachersAndSubjectsByStudent(
         string studentName)
     {
-        Console.Write("Въведи име на ученик: ");
-
         using MySqlCommand command = new($"SELECT t.full_name AS 'Учител', sj.title AS 'Предмет' FROM students s JOIN classes c ON c.id = s.id JOIN teachers t ON t.id = c.class_teacher_id JOIN teachers_subjects ts ON ts.teacher_id = t.id JOIN subjects sj ON sj.id = ts.subject_id WHERE s.full_name = '{studentName}'",
             Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 
-    public void GetClassByParentEmail(
+    public string GetClassByParentEmail(
         string parentEmail)
     {
-        Console.Write("Въведи имейл на родител: ");
-
         using MySqlCommand command = new($"SELECT c.class_number, c.class_letter FROM parents p JOIN students_parents sp ON p.id = sp.parent_id JOIN students s ON s.id = sp.student_id JOIN classes c ON s.class_id = c.id WHERE p.email = '{parentEmail}'",
             Connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
 
+        var stringBuilder = new StringBuilder();
+
         while (sqlDataReader.Read())
         {
-            Console.WriteLine($"{sqlDataReader[0]}{sqlDataReader[1]}");
+            stringBuilder.AppendLine($"{sqlDataReader[0]}{sqlDataReader[1]}");
         }
 
-        Console.ReadLine();
+        return stringBuilder.ToString().Trim();
     }
 }

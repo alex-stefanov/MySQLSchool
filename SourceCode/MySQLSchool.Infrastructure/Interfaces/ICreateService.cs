@@ -1,5 +1,7 @@
 ﻿namespace MySQLSchool.Infrastructure.Interfaces;
 
+//TODO: Add returns xml doc
+
 /// <summary>
 /// Defines the methods for creating entities in the system.
 /// </summary>
@@ -8,45 +10,45 @@ public interface ICreateService
     /// <summary>
     /// Creates parents in the system.
     /// </summary>
-    void CreateParents();
+    int CreateParents();
 
     /// <summary>
     /// Creates subjects in the system.
     /// </summary>
-    void CreateSubjects();
+    int CreateSubjects();
 
     /// <summary>
     /// Creates teachers in the system.
     /// </summary>
-    void CreateTeachers();
+    int CreateTeachers();
 
     /// <summary>
     /// Creates classrooms in the system.
     /// </summary>
-    void CreateClassrooms();
+    int CreateClassrooms();
 
     /// <summary>
     /// Creates classes in the system.
     /// </summary>
-    void CreateClasses();
+    int CreateClasses();
 
     /// <summary>
     /// Creates students in the system.
     /// </summary>
-    void CreateStudents();
+    int CreateStudents();
 
     /// <summary>
     /// Creates relationships between teachers and subjects in the system.
     /// </summary>
-    void CreateTeachersSubjects();
+    int CreateTeachersSubjects();
 
     /// <summary>
     /// Creates relationships between classes and subjects in the system.
     /// </summary>
-    void CreateClassesSubjects();
+    int CreateClassesSubjects();
 
     /// <summary>
     /// Creates relationships between students and parents in the system.
     /// </summary>
-    void CreateStudentsParents();
+    int CreateStudentsParents();
 }

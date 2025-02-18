@@ -11,50 +11,50 @@ namespace MySQLSchool.Infrastructure.Implementation;
 public class CreateService
     : INTERFACES.ICreateService
 {
-    private static readonly MySqlConnection Connection 
+    private static readonly MySqlConnection Connection
         = DATA.DbInitializer.GetConnection();
 
     /// <inheritdoc/>
-    public void CreateParents()
+    public int CreateParents()
         => InternalCreate(CT_QUERIES.CreateParentsQuery);
 
     /// <inheritdoc/>
-    public void CreateSubjects()
+    public int CreateSubjects()
         => InternalCreate(CT_QUERIES.CreateSubjects);
 
     /// <inheritdoc/>
-    public void CreateTeachers()
+    public int CreateTeachers()
         => InternalCreate(CT_QUERIES.CreateTeachers);
 
     /// <inheritdoc/>
-    public void CreateClassrooms()
+    public int CreateClassrooms()
         => InternalCreate(CT_QUERIES.CreateClassrooms);
 
     /// <inheritdoc/>
-    public void CreateClasses()
+    public int CreateClasses()
         => InternalCreate(CT_QUERIES.CreateClasses);
 
     /// <inheritdoc/>
-    public void CreateStudents()
+    public int CreateStudents()
         => InternalCreate(CT_QUERIES.CreateStudents);
 
     /// <inheritdoc/>
-    public void CreateTeachersSubjects()
+    public int CreateTeachersSubjects()
         => InternalCreate(CT_QUERIES.CreateTeachersSubjects);
 
     /// <inheritdoc/>
-    public void CreateClassesSubjects()
+    public int CreateClassesSubjects()
         => InternalCreate(CT_QUERIES.CreateClassesSubjects);
 
     /// <inheritdoc/>
-    public void CreateStudentsParents()
+    public int CreateStudentsParents()
         => InternalCreate(CT_QUERIES.CreateStudentsParents);
 
-    private static void InternalCreate(
+    private static int InternalCreate(
         string sqlQuery)
     {
         using var command = new MySqlCommand(sqlQuery, Connection);
 
-        command.ExecuteNonQuery();
+        return command.ExecuteNonQuery();
     }
 }
