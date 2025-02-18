@@ -350,17 +350,30 @@ public class Program
                             {
                                 case "1":
                                     {
-                                        GetStudentNames(mySqlConnection);
+                                        try
+                                        {
+                                            logger.Log(PI_MESSAGES.StudentsParentsMessage);
+
+                                            populateService.PopulateStudentsParents(logger);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.WriteLine(PE_MESSAGES.StudentsParentsMessage + ex.Message);
+                                            logger.Log(PE_MESSAGES.StudentsParentsMessage + ex.Message);
+                                        }
+                                        break;
+
+                                        GetStudentsNames(mySqlConnection);
                                         break;
                                     }
                                 case "2":
                                     {
-                                        GetTeachersNamesAndSubjectGroupedByBySubject(mySqlConnection);
+                                        GetTeachersNamesAndSubject(mySqlConnection);
                                         break;
                                     }
                                 case "3":
                                     {
-                                        GetClassesByClassAndTeachers(mySqlConnection);
+                                        GetClassesAndTeacher(mySqlConnection);
                                         break;
                                     }
                                 case "4":
@@ -370,17 +383,17 @@ public class Program
                                     }
                                 case "5":
                                     {
-                                        GetClassroomsIdAndCapacityOrderedByFloor(mySqlConnection);
+                                        GetClassroomsOrderedByFloor(mySqlConnection);
                                         break;
                                     }
                                 case "6":
                                     {
-                                        GetStudentsClassesGroupedByClasses(mySqlConnection);
+                                        GetStudentsByClasses(mySqlConnection);
                                         break;
                                     }
                                 case "7":
                                     {
-                                        GetSpecificStudentsAndClassesGroupedByClass(mySqlConnection);
+                                        GetAllStudentsByClass(mySqlConnection);
                                         break;
                                     }
                                 case "8":
@@ -390,17 +403,17 @@ public class Program
                                     }
                                 case "9":
                                     {
-                                        GetCountOfStudentsSubjectsByStudentName(mySqlConnection);
+                                        GetCountOfSubjectsByStudent(mySqlConnection);
                                         break;
                                     }
                                 case "10":
                                     {
-                                        GetStudentsTeachersAndSubjects(mySqlConnection);
+                                        GetTeachersAndSubjectsByStudent(mySqlConnection);
                                         break;
                                     }
                                 case "11":
                                     {
-                                        GetStudentsTeachersAndSubjects(mySqlConnection);
+                                        GetClassByParentEmail(mySqlConnection);
                                         break;
                                     }
                                 case "0":
@@ -509,7 +522,7 @@ public class Program
         }
     }
 
-    static void GetStudentNames(
+    static void GetStudentsNames(
         MySqlConnection connection)
     {
         using MySqlCommand command = new("SELECT s.full_name FROM students s JOIN classes c ON s.class_id = c.id WHERE c.class_number = 11 AND c.class_letter = 'б'",
@@ -525,7 +538,7 @@ public class Program
         Console.ReadLine();
     }
 
-    static void GetTeachersNamesAndSubjectGroupedByBySubject(
+    static void GetTeachersNamesAndSubject(
         MySqlConnection connection)
     {
         using MySqlCommand command = new("SELECT sub.title AS subject_name, GROUP_CONCAT(t.full_name SEPARATOR ', ') AS teachers FROM teachers_subjects ts JOIN teachers t ON ts.teacher_id = t.id JOIN subjects sub ON ts.subject_id = sub.id GROUP BY sub.title",
@@ -541,7 +554,7 @@ public class Program
         Console.ReadLine();
     }
 
-    static void GetClassesByClassAndTeachers(
+    static void GetClassesAndTeacher(
         MySqlConnection connection)
     {
         using MySqlCommand command = new("SELECT c.class_number, c.class_letter, t.full_name FROM classes c JOIN teachers t ON t.id = c.class_teacher_id",
@@ -573,7 +586,7 @@ public class Program
         Console.ReadLine();
     }
 
-    static void GetClassroomsIdAndCapacityOrderedByFloor(
+    static void GetClassroomsOrderedByFloor(
         MySqlConnection connection)
     {
         using MySqlCommand command = new("SELECT classrooms.id, classrooms.capacity FROM classrooms WHERE classrooms.capacity > 26 ORDER BY classrooms.floor ASC",
@@ -589,10 +602,10 @@ public class Program
         Console.ReadLine();
     }
 
-    static void GetStudentsClassesGroupedByClasses(
+    static void GetStudentsByClasses(
         MySqlConnection connection)
     {
-        using MySqlCommand command = new MySqlCommand("SELECT CONCAT(c.class_number, c.class_letter) AS class_name, GROUP_CONCAT(s.full_name SEPARATOR ', ') AS student_names FROM students s JOIN classes c ON s.class_id = c.id GROUP BY c.class_number, c.class_letter ORDER BY c.class_number ASC, c.class_letter ASC; ",
+        using MySqlCommand command = new("SELECT CONCAT(c.class_number, c.class_letter) AS class_name, GROUP_CONCAT(s.full_name SEPARATOR ', ') AS student_names FROM students s JOIN classes c ON s.class_id = c.id GROUP BY c.class_number, c.class_letter ORDER BY c.class_number ASC, c.class_letter ASC; ",
             connection);
 
         using MySqlDataReader sqlDataReader = command.ExecuteReader();
@@ -605,7 +618,7 @@ public class Program
         Console.ReadLine();
     }
 
-    static void GetSpecificStudentsAndClassesGroupedByClass(
+    static void GetAllStudentsByClass(
         MySqlConnection connection)
     {
         Console.Write("Въведи клас: ");
@@ -614,7 +627,7 @@ public class Program
         Console.WriteLine();
 
         Console.Write("Въведи буква на класа: ");
-        string classLetter = Console.ReadLine();
+        char classLetter = char.Parse(Console.ReadLine());
 
         using MySqlCommand command = new($"SELECT s.full_name FROM students s JOIN classes c ON s.class_id = c.id WHERE c.class_number = {classNumber} AND c.class_letter = '{classLetter}'",
                 connection);
@@ -648,7 +661,7 @@ public class Program
         Console.ReadLine();
     }
 
-    static void GetCountOfStudentsSubjectsByStudentName(
+    static void GetCountOfSubjectsByStudent(
         MySqlConnection connection)
     {
         Console.Write("Въведи име на ученик: ");
@@ -667,7 +680,7 @@ public class Program
         Console.ReadLine();
     }
 
-    static void GetStudentsTeachersAndSubjects(
+    static void GetTeachersAndSubjectsByStudent(
         MySqlConnection connection)
     {
         Console.Write("Въведи име на ученик: ");
