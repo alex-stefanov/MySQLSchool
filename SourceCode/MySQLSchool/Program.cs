@@ -20,6 +20,7 @@ using MI_MESSAGES = MySQLSchool.Common.Messages.MenuMessages.MainPanelMessages.I
 using FI_MESSAGES = MySQLSchool.Common.Messages.MenuMessages.FunctionalityPanelMessages.InfoMessages;
 using PI_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.GeneralInfoMessages;
 using PE_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.GeneralErrorMessages;
+using SI_MESSAGES = MySQLSchool.Common.Messages.SelectMessages.SelectInputMessages;
 
 namespace MySQLSchool;
 
@@ -28,7 +29,7 @@ public static class Program
     //TODO: Add suggestions
     //TODO: Validation
     //TODO: XML boc boc
-    //TODO: Add try catches to second menu
+    //TODO: Add logging to second menu
     //TODO: Constants for second menu panel
     //TODO: Press key to exit
     //TODO: Interface for logging
@@ -717,7 +718,14 @@ public static class Program
                             {
                                 case "1":
                                     {
-                                        selectService.GetStudentsNames();
+                                        try
+                                        {
+                                            selectService.GetStudentsNames();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            
+                                        }
 
                                         Console.ReadLine();
 
@@ -725,7 +733,14 @@ public static class Program
                                     }
                                 case "2":
                                     {
-                                        selectService.GetTeachersNamesAndSubject();
+                                        try
+                                        {
+                                            selectService.GetTeachersNamesAndSubject();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            
+                                        }
 
                                         Console.ReadLine();
 
@@ -733,7 +748,14 @@ public static class Program
                                     }
                                 case "3":
                                     {
-                                        selectService.GetClassesAndTeacher();
+                                        try
+                                        {
+                                            selectService.GetClassesAndTeacher();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            
+                                        }
 
                                         Console.ReadLine();
 
@@ -741,7 +763,14 @@ public static class Program
                                     }
                                 case "4":
                                     {
-                                        selectService.GetSubjectsWithTeacherCount();
+                                        try
+                                        {
+                                            selectService.GetSubjectsWithTeacherCount();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            
+                                        }
 
                                         Console.ReadLine();
 
@@ -749,7 +778,14 @@ public static class Program
                                     }
                                 case "5":
                                     {
-                                        selectService.GetClassroomsOrderedByFloor();
+                                        try
+                                        {
+                                            selectService.GetClassroomsOrderedByFloor();
+                                        }
+                                        catch (Exception ex)
+                                        {
+
+                                        }
 
                                         Console.ReadLine();
 
@@ -757,7 +793,14 @@ public static class Program
                                     }
                                 case "6":
                                     {
-                                        selectService.GetStudentsByClasses();
+                                        try
+                                        {
+                                            selectService.GetStudentsByClasses();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            
+                                        }
 
                                         Console.ReadLine();
 
@@ -765,17 +808,30 @@ public static class Program
                                     }
                                 case "7":
                                     {
-                                        Console.Write("Въведи клас: ");
-                                        int classNumber = int.Parse(Console.ReadLine());
+                                        #region Parameters
+                                        
+                                        var classNumber = HELPERS.ValidationHelper.GetValidatedInput<int>(
+                                            infoMessage: SI_MESSAGES.NumberInfoMessage,
+                                            errorMessage: SI_MESSAGES.NumberErrorMessage, 
+                                            logger: logger);
+                                        
+                                        var classLetter = HELPERS.ValidationHelper.GetValidatedInput<char>(
+                                            infoMessage: SI_MESSAGES.LetterInfoMessage,
+                                            errorMessage: SI_MESSAGES.LetterErrorMessage, 
+                                            logger: logger);
 
-                                        Console.WriteLine();
+                                        #endregion
 
-                                        Console.Write("Въведи буква на класа: ");
-                                        char classLetter = char.Parse(Console.ReadLine());
-
-                                        selectService.GetAllStudentsByClass(
-                                            classNumber: classNumber,
-                                            classLetter: classLetter);
+                                        try
+                                        {
+                                            selectService.GetAllStudentsByClass(
+                                                classNumber: classNumber,
+                                                classLetter: classLetter);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            
+                                        }
 
                                         Console.ReadLine();
 
@@ -783,11 +839,24 @@ public static class Program
                                     }
                                 case "8":
                                     {
-                                        Console.Write("Въведи рожден ден(yyyy-MM-dd): ");
-                                        string dateOfBirth = Console.ReadLine();
+                                        #region Parameters
+                                        
+                                        var dateOfBirth = HELPERS.ValidationHelper.GetValidatedInput<string>(
+                                            infoMessage: SI_MESSAGES.DateOfBirthInfoMessage,
+                                            errorMessage: SI_MESSAGES.DateOfBirthErrorMessage, 
+                                            logger: logger);
 
-                                        selectService.GetStudentsWithSpecificBirthday(
-                                            dateOfBirth: dateOfBirth);
+                                        #endregion
+
+                                        try
+                                        {
+                                            selectService.GetStudentsWithSpecificBirthday(
+                                                dateOfBirth: dateOfBirth);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            
+                                        }
 
                                         Console.ReadLine();
 
@@ -795,11 +864,24 @@ public static class Program
                                     }
                                 case "9":
                                     {
-                                        Console.Write("Въведи име на ученик: ");
-                                        string studentName = Console.ReadLine();
+                                        #region Parameters
+                                        
+                                        var studentName = HELPERS.ValidationHelper.GetValidatedInput<string>(
+                                            infoMessage: SI_MESSAGES.FullNameInfoMessage,
+                                            errorMessage: SI_MESSAGES.FullNameErrorMessage, 
+                                            logger: logger);
 
-                                        selectService.GetCountOfSubjectsByStudent(
-                                            studentName: studentName);
+                                        #endregion
+
+                                        try
+                                        {
+                                            selectService.GetCountOfSubjectsByStudent(
+                                                studentName: studentName);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            
+                                        }
 
                                         Console.ReadLine();
 
@@ -807,11 +889,24 @@ public static class Program
                                     }
                                 case "10":
                                     {
-                                        Console.Write("Въведи име на ученик: ");
-                                        string studentName = Console.ReadLine();
+                                        #region Parameters
+                                        
+                                        var studentName = HELPERS.ValidationHelper.GetValidatedInput<string>(
+                                            infoMessage: SI_MESSAGES.FullNameInfoMessage,
+                                            errorMessage: SI_MESSAGES.FullNameErrorMessage, 
+                                            logger: logger);
 
-                                        selectService.GetTeachersAndSubjectsByStudent(
-                                            studentName: studentName);
+                                        #endregion
+
+                                        try
+                                        {
+                                            selectService.GetTeachersAndSubjectsByStudent(
+                                                studentName: studentName);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            
+                                        }
 
                                         Console.ReadLine();
 
@@ -819,11 +914,24 @@ public static class Program
                                     }
                                 case "11":
                                     {
-                                        Console.Write("Въведи имейл на родител: ");
-                                        string parentEmail = Console.ReadLine();
+                                        #region Parameters
+                                        
+                                        var parentEmail = HELPERS.ValidationHelper.GetValidatedInput<string>(
+                                            infoMessage: SI_MESSAGES.EmailInfoMessage,
+                                            errorMessage: SI_MESSAGES.EmailErrorMessage, 
+                                            logger: logger);
 
-                                        selectService.GetClassByParentEmail(
-                                            parentEmail: parentEmail);
+                                        #endregion
+
+                                        try
+                                        {
+                                            selectService.GetClassByParentEmail(
+                                                parentEmail: parentEmail);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            
+                                        }
 
                                         Console.ReadLine();
 
