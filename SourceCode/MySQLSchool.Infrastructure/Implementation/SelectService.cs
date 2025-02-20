@@ -12,6 +12,7 @@ public class SelectService
     private static readonly MySqlConnection Connection
        = DATA.DbInitializer.GetConnection();
 
+    /// <inheritdoc/>
     public string GetStudentsNames()
     {
         using MySqlCommand command = new(S_QUERIES.SelectStudentsByClass, Connection);
@@ -31,6 +32,7 @@ public class SelectService
         return stringBuilder.ToString().Trim();
     }
 
+    /// <inheritdoc/>
     public string GetTeachersNamesAndSubject()
     {
         using MySqlCommand command = new(S_QUERIES.SelectSubjectsWithTeachers, Connection);
@@ -47,6 +49,7 @@ public class SelectService
         return stringBuilder.ToString().Trim();
     }
 
+    /// <inheritdoc/>
     public string GetClassesAndTeacher()
     {
         using MySqlCommand command = new(S_QUERIES.SelectClassesWithTeachers, Connection);
@@ -63,6 +66,7 @@ public class SelectService
         return stringBuilder.ToString().Trim();
     }
 
+    /// <inheritdoc/>
     public string GetSubjectsWithTeacherCount()
     {
         using MySqlCommand command = new(S_QUERIES.SelectTeacherCountBySubject, Connection);
@@ -79,6 +83,7 @@ public class SelectService
         return stringBuilder.ToString().Trim();
     }
 
+    /// <inheritdoc/>
     public string GetClassroomsOrderedByFloor()
     {
         using MySqlCommand command = new(S_QUERIES.SelectClassroomsWithCapacity, Connection);
@@ -97,6 +102,7 @@ public class SelectService
         return stringBuilder.ToString().Trim();
     }
 
+    /// <inheritdoc/>
     public string GetStudentsByClasses()
     {
         using MySqlCommand command = new(S_QUERIES.SelectStudentsGroupedByClass, Connection);
@@ -113,6 +119,7 @@ public class SelectService
         return stringBuilder.ToString().Trim();
     }
 
+    /// <inheritdoc/>
     public string GetAllStudentsByClass(
         int classNumber,
         char classLetter)
@@ -134,7 +141,9 @@ public class SelectService
         return stringBuilder.ToString().Trim();
     }
 
-    public string GetStudentsWithSpecificBirthday(string dateOfBirth)
+    /// <inheritdoc/>
+    public string GetStudentsWithSpecificBirthday(
+        string dateOfBirth)
     {
         using MySqlCommand command = new(S_QUERIES.SelectStudentsByDateOfBirth, Connection);
         
@@ -152,7 +161,9 @@ public class SelectService
         return stringBuilder.ToString().Trim();
     }
 
-    public string GetCountOfSubjectsByStudent(string studentName)
+    /// <inheritdoc/>
+    public string GetCountOfSubjectsByStudent(
+        string studentName)
     {
         using MySqlCommand command = new(S_QUERIES.SelectSubjectCountByStudent, Connection);
         
@@ -170,7 +181,9 @@ public class SelectService
         return stringBuilder.ToString().Trim();
     }
 
-    public string GetTeachersAndSubjectsByStudent(string studentName)
+    /// <inheritdoc/>
+    public string GetTeachersAndSubjectsByStudent(
+        string studentName)
     {
         using MySqlCommand command = new(S_QUERIES.SelectTeacherAndSubjectsByStudent, Connection);
         
@@ -188,7 +201,9 @@ public class SelectService
         return stringBuilder.ToString().Trim();
     }
 
-    public string GetClassByParentEmail(string parentEmail)
+    /// <inheritdoc/>
+    public string GetClassByParentEmail(
+        string parentEmail)
     {
         using MySqlCommand command = new(S_QUERIES.SelectClassByParentEmail, Connection);
         

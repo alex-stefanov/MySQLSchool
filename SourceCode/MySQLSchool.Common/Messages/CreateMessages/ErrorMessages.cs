@@ -1,4 +1,4 @@
-namespace MySQLSchool.Common.Messages.InitializersMessages;
+namespace MySQLSchool.Common.Messages.CreateMessages;
 
 /// <summary>
 /// Provides predefined error messages for creating various entities in the system.

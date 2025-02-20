@@ -1,4 +1,5 @@
 ﻿using MySqlConnector;
+using MySQLSchool.Infrastructure.Interfaces;
 using DATA = MySQLSchool.Data;
 using INTERFACES = MySQLSchool.Infrastructure.Interfaces;
 using IT_QUERIES = MySQLSchool.Common.Queries.InsertTableQueries;
@@ -6,16 +7,16 @@ using IT_QUERIES = MySQLSchool.Common.Queries.InsertTableQueries;
 namespace MySQLSchool.Infrastructure.Implementation;
 
 /// <summary>
-/// Implements the <see cref="INTERFACES.IPopulateService"/> interface for populating data entities in the system.
+/// Implements the <see cref="IInsertService"/> interface for inserting data entities into the system.
 /// </summary>
-public class PopulateService
-    : INTERFACES.IPopulateService
+public class InsertService
+    : INTERFACES.IInsertService
 {
     private static readonly MySqlConnection Connection
         = DATA.DbInitializer.GetConnection();
 
     /// <inheritdoc/>
-    public int PopulateParents(
+    public int InsertParents(
         string parentCode,
         string fullName,
         string phone,
@@ -32,7 +33,7 @@ public class PopulateService
     }
 
     /// <inheritdoc/>
-    public int PopulateSubjects(
+    public int InsertSubjects(
         string title,
         string level)
     {
@@ -45,7 +46,7 @@ public class PopulateService
     }
 
     /// <inheritdoc/>
-    public int PopulateTeachers(
+    public int InsertTeachers(
         string teacherCode,
         string fullName,
         string email,
@@ -68,7 +69,7 @@ public class PopulateService
     }
 
     /// <inheritdoc/>
-    public int PopulateClassrooms(
+    public int InsertClassrooms(
         int floor,
         int capacity,
         string description)
@@ -83,7 +84,7 @@ public class PopulateService
     }
 
     /// <inheritdoc/>
-    public int PopulateClasses(
+    public int InsertClasses(
         int classNumber,
         char classLetter,
         int classTeacherId,
@@ -100,7 +101,7 @@ public class PopulateService
     }
 
     /// <inheritdoc/>
-    public int PopulateStudents(
+    public int InsertStudents(
         string studentCode,
         string fullName,
         string email,
@@ -125,7 +126,7 @@ public class PopulateService
     }
 
     /// <inheritdoc/>
-    public int PopulateTeachersSubjects(
+    public int InsertTeachersSubjects(
         int teacherId,
         int subjectId)
     {
@@ -138,7 +139,7 @@ public class PopulateService
     }
 
     /// <inheritdoc/>
-    public int PopulateClassesSubjects(
+    public int InsertClassesSubjects(
         int classId,
         int subjectId)
     {
@@ -151,7 +152,7 @@ public class PopulateService
     }
 
     /// <inheritdoc/>
-    public int PopulateStudentsParents(
+    public int InsertStudentsParents(
         int studentId,
         int parentId)
     {
@@ -164,39 +165,39 @@ public class PopulateService
     }
 
     /// <inheritdoc/>
-    public int PopulateParentsWithDefault()
+    public int InsertParentsWithDefault()
         => InternalCommandExecute(IT_QUERIES.InsertDefaultParents);
 
     /// <inheritdoc/>
-    public int PopulateSubjectsWithDefault()
+    public int InsertSubjectsWithDefault()
         => InternalCommandExecute(IT_QUERIES.InsertDefaultSubjects);
 
     /// <inheritdoc/>
-    public int PopulateTeachersWithDefault()
+    public int InsertTeachersWithDefault()
         => InternalCommandExecute(IT_QUERIES.InsertDefaultTeachers);
 
     /// <inheritdoc/>
-    public int PopulateClassroomsWithDefault()
+    public int InsertClassroomsWithDefault()
         => InternalCommandExecute(IT_QUERIES.InsertDefaultClassrooms);
 
     /// <inheritdoc/>
-    public int PopulateClassesWithDefault()
+    public int InsertClassesWithDefault()
         => InternalCommandExecute(IT_QUERIES.InsertDefaultClasses);
 
     /// <inheritdoc/>
-    public int PopulateStudentsWithDefault()
+    public int InsertStudentsWithDefault()
         => InternalCommandExecute(IT_QUERIES.InsertDefaultStudents);
 
     /// <inheritdoc/>
-    public int PopulateTeachersSubjectsWithDefault()
+    public int InsertTeachersSubjectsWithDefault()
         => InternalCommandExecute(IT_QUERIES.InsertDefaultTeachersSubjects);
 
     /// <inheritdoc/>
-    public int PopulateClassesSubjectsWithDefault()
+    public int InsertClassesSubjectsWithDefault()
         => InternalCommandExecute(IT_QUERIES.InsertDefaultClassesSubjects);
 
     /// <inheritdoc/>
-    public int PopulateStudentsParentsWithDefault()
+    public int InsertStudentsParentsWithDefault()
         => InternalCommandExecute(IT_QUERIES.InsertDefaultStudentsParents);
     
     private static int InternalCommandExecute(

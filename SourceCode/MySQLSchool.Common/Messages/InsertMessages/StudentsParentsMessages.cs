@@ -1,4 +1,4 @@
-﻿namespace MySQLSchool.Common.Messages.PopulateMessages;
+﻿namespace MySQLSchool.Common.Messages.InsertMessages;
 
 /// <summary>
 /// Provides predefined messages for handling student-parent relationship data input.

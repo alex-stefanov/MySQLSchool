@@ -1,7 +1,7 @@
-﻿namespace MySQLSchool.Common.Messages.PopulateMessages;
+﻿namespace MySQLSchool.Common.Messages.InsertMessages;
 
 /// <summary>
-/// Provides predefined messages for populating class and subject data.
+/// Provides predefined messages for inserting class and subject data.
 /// </summary>
 public static class ClassesSubjectsMessages
 {

@@ -1,26 +1,34 @@
-﻿using COMMON = MySQLSchool.Common;
-using DATA = MySQLSchool.Data;
+﻿using DATA = MySQLSchool.Data;
+using COMMON = MySQLSchool.Common;
+using HELPERS = MySQLSchool.Helpers;
 using INTERFACES = MySQLSchool.Infrastructure.Interfaces;
 using IMPLEMENTATIONS = MySQLSchool.Infrastructure.Implementation;
 using LOGGERS = MySQLSchool.Logging.Loggers;
-using HELPERS = MySQLSchool.Helpers;
 using L_INTERFACES = MySQLSchool.Logging.Interfaces;
-using P_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.ParentsMessages;
-using SJ_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.SubjectsMessages;
-using T_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.TeachersMessages;
-using CR_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.ClassroomsMessages;
-using C_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.ClassesMessages;
-using S_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.StudentsMessages;
-using TSJ_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.TeachersSubjectsMessages;
-using CSJ_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.ClassesSubjectsMessages;
-using SP_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.StudentsParentsMessages;
-using II_MESSAGES = MySQLSchool.Common.Messages.InitializersMessages.InfoMessages;
-using IE_MESSAGES = MySQLSchool.Common.Messages.InitializersMessages.ErrorMessages;
+
+#region Messages
+
+using P_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.ParentsMessages;
+using SJ_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.SubjectsMessages;
+using T_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.TeachersMessages;
+using CR_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.ClassroomsMessages;
+using C_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.ClassesMessages;
+using S_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.StudentsMessages;
+using TSJ_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.TeachersSubjectsMessages;
+using CSJ_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.ClassesSubjectsMessages;
+using PI_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.GeneralInfoMessages;
+using PE_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.GeneralErrorMessages;
+using SP_MESSAGES = MySQLSchool.Common.Messages.InsertMessages.StudentsParentsMessages;
+
+using CI_MESSAGES = MySQLSchool.Common.Messages.CreateMessages.InfoMessages;
+using CE_MESSAGES = MySQLSchool.Common.Messages.CreateMessages.ErrorMessages;
+
+using SI_MESSAGES = MySQLSchool.Common.Messages.SelectMessages.SelectInputMessages;
+
 using MI_MESSAGES = MySQLSchool.Common.Messages.MenuMessages.MainPanelMessages.InfoMessages;
 using FI_MESSAGES = MySQLSchool.Common.Messages.MenuMessages.FunctionalityPanelMessages.InfoMessages;
-using PI_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.GeneralInfoMessages;
-using PE_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.GeneralErrorMessages;
-using SI_MESSAGES = MySQLSchool.Common.Messages.SelectMessages.SelectInputMessages;
+
+#endregion
 
 namespace MySQLSchool;
 
@@ -36,6 +44,7 @@ public static class Program
     //TODO: Interface for options
     //TODO: Implement welcome message
     //TODO: Option for Default Insert
+    //TODO: Validation to capacity in insert
 
     private static void Main()
     {
@@ -66,110 +75,110 @@ public static class Program
 
             try
             {
-                logger.Log(II_MESSAGES.ParentsMessage);
+                logger.Log(CI_MESSAGES.ParentsMessage);
 
                 createService.CreateParents();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(IE_MESSAGES.ParentsMessage + ex.Message);
-                logger.Log(IE_MESSAGES.ParentsMessage + ex.Message);
+                Console.WriteLine(CE_MESSAGES.ParentsMessage + ex.Message);
+                logger.Log(CE_MESSAGES.ParentsMessage + ex.Message);
             }
 
             try
             {
-                logger.Log(II_MESSAGES.SubjectsMessage);
+                logger.Log(CI_MESSAGES.SubjectsMessage);
 
                 createService.CreateSubjects();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(IE_MESSAGES.SubjectsMessage + ex.Message);
-                logger.Log(IE_MESSAGES.SubjectsMessage + ex.Message);
+                Console.WriteLine(CE_MESSAGES.SubjectsMessage + ex.Message);
+                logger.Log(CE_MESSAGES.SubjectsMessage + ex.Message);
             }
 
             try
             {
-                logger.Log(II_MESSAGES.TeachersMessage);
+                logger.Log(CI_MESSAGES.TeachersMessage);
 
                 createService.CreateTeachers();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(IE_MESSAGES.TeachersMessage + ex.Message);
-                logger.Log(IE_MESSAGES.TeachersMessage + ex.Message);
+                Console.WriteLine(CE_MESSAGES.TeachersMessage + ex.Message);
+                logger.Log(CE_MESSAGES.TeachersMessage + ex.Message);
             }
 
             try
             {
-                logger.Log(II_MESSAGES.ClassroomsMessage);
+                logger.Log(CI_MESSAGES.ClassroomsMessage);
                 
                 createService.CreateClassrooms();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(IE_MESSAGES.ClassroomsMessage + ex.Message);
-                logger.Log(IE_MESSAGES.ClassroomsMessage + ex.Message);
+                Console.WriteLine(CE_MESSAGES.ClassroomsMessage + ex.Message);
+                logger.Log(CE_MESSAGES.ClassroomsMessage + ex.Message);
             }
 
             try
             {
-                logger.Log(II_MESSAGES.ClassesMessage);
+                logger.Log(CI_MESSAGES.ClassesMessage);
 
                 createService.CreateClasses();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(IE_MESSAGES.ClassesMessage + ex.Message);
-                logger.Log(IE_MESSAGES.ClassesMessage + ex.Message);
+                Console.WriteLine(CE_MESSAGES.ClassesMessage + ex.Message);
+                logger.Log(CE_MESSAGES.ClassesMessage + ex.Message);
             }
 
             try
             {
-                logger.Log(II_MESSAGES.StudentsMessage);
+                logger.Log(CI_MESSAGES.StudentsMessage);
 
                 createService.CreateStudents();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(IE_MESSAGES.StudentsMessage + ex.Message);
-                logger.Log(IE_MESSAGES.StudentsMessage + ex.Message);
+                Console.WriteLine(CE_MESSAGES.StudentsMessage + ex.Message);
+                logger.Log(CE_MESSAGES.StudentsMessage + ex.Message);
             }
 
             try
             {
-                logger.Log(II_MESSAGES.TeachersSubjectsMessage);
+                logger.Log(CI_MESSAGES.TeachersSubjectsMessage);
 
                 createService.CreateTeachersSubjects();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(IE_MESSAGES.TeachersSubjectsMessage + ex.Message);
-                logger.Log(IE_MESSAGES.TeachersSubjectsMessage + ex.Message);
+                Console.WriteLine(CE_MESSAGES.TeachersSubjectsMessage + ex.Message);
+                logger.Log(CE_MESSAGES.TeachersSubjectsMessage + ex.Message);
             }
 
             try
             {
-                logger.Log(II_MESSAGES.ClassesSubjectsMessage);
+                logger.Log(CI_MESSAGES.ClassesSubjectsMessage);
 
                 createService.CreateClassesSubjects();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(IE_MESSAGES.ClassesSubjectsMessage + ex.Message);
-                logger.Log(IE_MESSAGES.ClassesSubjectsMessage + ex.Message);
+                Console.WriteLine(CE_MESSAGES.ClassesSubjectsMessage + ex.Message);
+                logger.Log(CE_MESSAGES.ClassesSubjectsMessage + ex.Message);
             }
 
             try
             {
-                logger.Log(II_MESSAGES.StudentsParentsMessage);
+                logger.Log(CI_MESSAGES.StudentsParentsMessage);
                 
                 createService.CreateStudentsParents();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(IE_MESSAGES.StudentsParentsMessage + ex.Message);
-                logger.Log(IE_MESSAGES.StudentsParentsMessage + ex.Message);
+                Console.WriteLine(CE_MESSAGES.StudentsParentsMessage + ex.Message);
+                logger.Log(CE_MESSAGES.StudentsParentsMessage + ex.Message);
             }
 
             #endregion
@@ -188,7 +197,7 @@ public static class Program
                 return;
             }
 
-            INTERFACES.IPopulateService populateService = new IMPLEMENTATIONS.PopulateService();
+            INTERFACES.IInsertService insertService = new IMPLEMENTATIONS.InsertService();
             INTERFACES.ISelectService selectService = new IMPLEMENTATIONS.SelectService();
 
             switch (choice)
@@ -232,7 +241,7 @@ public static class Program
                         
                         try
                         {
-                            populateService.PopulateParents(
+                            insertService.InsertParents(
                                 parentCode: parentCode,
                                 fullName: fullName,
                                 phone: phone,
@@ -280,7 +289,7 @@ public static class Program
                         
                         try
                         {
-                            populateService.PopulateSubjects(
+                            insertService.InsertSubjects(
                                 title: title,
                                 level: level);
                         }
@@ -349,7 +358,7 @@ public static class Program
                         
                         try
                         {
-                            populateService.PopulateTeachers(
+                            insertService.InsertTeachers(
                                 teacherCode: teacherCode,
                                 fullName: fullName,
                                 email: email,
@@ -405,7 +414,7 @@ public static class Program
                         
                         try
                         {
-                            populateService.PopulateClassrooms(
+                            insertService.InsertClassrooms(
                                 floor: floor,
                                 capacity: capacity,
                                 description: description);
@@ -462,7 +471,7 @@ public static class Program
                         
                         try
                         {
-                            populateService.PopulateClasses(
+                            insertService.InsertClasses(
                                 classNumber: classNumber,
                                 classLetter: classLetter,
                                 classTeacherId: classTeacherId,
@@ -538,7 +547,7 @@ public static class Program
                             
                         try
                         {
-                            populateService.PopulateStudents(
+                            insertService.InsertStudents(
                                 studentCode: studentCode,
                                 fullName: fullName,
                                 email: email,
@@ -590,7 +599,7 @@ public static class Program
                             
                         try
                         {
-                            populateService.PopulateTeachersSubjects(
+                            insertService.InsertTeachersSubjects(
                                 teacherId: teacherId,
                                 subjectId: subjectId);
                         }
@@ -636,7 +645,7 @@ public static class Program
                         
                         try
                         {
-                            populateService.PopulateClassesSubjects(
+                            insertService.InsertClassesSubjects(
                                 classId: classId,
                                 subjectId: subjectId);
                         }
@@ -682,7 +691,7 @@ public static class Program
                         
                         try
                         {
-                            populateService.PopulateStudentsParents(
+                            insertService.InsertStudentsParents(
                                 studentId: studentId,
                                 parentId: parentId);
                         }
