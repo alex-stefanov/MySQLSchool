@@ -176,24 +176,9 @@ public static class Program
 
         while (true)
         {
-            #region Menu Panel
-
             Console.Clear();
             
-            Console.WriteLine(MI_MESSAGES.HeaderMessage);
-            Console.WriteLine(MI_MESSAGES.ParentsOptionMessage);
-            Console.WriteLine(MI_MESSAGES.SubjectsOptionMessage);
-            Console.WriteLine(MI_MESSAGES.TeachersOptionMessage);
-            Console.WriteLine(MI_MESSAGES.ClassroomsOptionMessage);
-            Console.WriteLine(MI_MESSAGES.ClassesOptionMessage);
-            Console.WriteLine(MI_MESSAGES.StudentsOptionMessage);
-            Console.WriteLine(MI_MESSAGES.TeachersSubjectsOptionMessage);
-            Console.WriteLine(MI_MESSAGES.ClassesSubjectsOptionMessage);
-            Console.WriteLine(MI_MESSAGES.StudentsParentsOptionMessage);
-            Console.WriteLine(MI_MESSAGES.FunctionalitiesOptionMessage);
-            Console.WriteLine(MI_MESSAGES.ExitOptionMessage);
-
-            #endregion
+            HELPERS.MenuHelper.ShowMainMenu();
 
             var choice = Console.ReadLine();
 
@@ -717,25 +702,9 @@ public static class Program
                     {
                         while (true)
                         {
-                            #region Menu Panel
-
                             Console.Clear();
                             
-                            Console.WriteLine("Изведи:");
-                            Console.WriteLine("1. Имената на всички ученици от 11б");
-                            Console.WriteLine("2. Имената на всички учители и предмета, по който преподава, групирани по предмети");
-                            Console.WriteLine("3. Всички класове на даден учител по идентификатора му");
-                            Console.WriteLine("4. Всички учебни предмети и броят на преподаващите учители");
-                            Console.WriteLine("5. Идентификатора и капацитета на класните стаи с капацитет повече от 26, подредени във възходящ ред по етажи");
-                            Console.WriteLine("6. Имената и класът на всички ученици групирани по класове във възходящ ред на класовете");
-                            Console.WriteLine("7. Имената на ученици от избран клас и паралелка");
-                            Console.WriteLine("8. Имената на всички ученици родени на специфична дата");
-                            Console.WriteLine("9. Броят на предметите на съответен ученик по името му");
-                            Console.WriteLine("10. Имената на всички учители и предметите, по които преподават на съответен ученик по името му");
-                            Console.WriteLine("11. Класовете, в които учат децата на специфичен родител по негов имейл");
-                            Console.WriteLine("0. Изход");
-
-                            #endregion
+                            HELPERS.MenuHelper.ShowFunctionalityMenu();
 
                             string? functionalityChoice = Console.ReadLine();
 

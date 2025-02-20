@@ -1,6 +1,6 @@
 ﻿namespace MySQLSchool.Infrastructure.Interfaces;
 
-//TODO:Add params xml doc
+//TODO: Add params xml doc
 //TODO:Validation to capacity
 //TODO: Add returns xml doc
 //TODO: Rename to IInsertService
