@@ -23,14 +23,19 @@ using PE_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.GeneralErrorMes
 
 namespace MySQLSchool;
 
-public class Program
+public static class Program
 {
     //TODO: Add suggestions
     //TODO: Validation
     //TODO: XML boc boc
     //TODO: Add try catches to second menu
-    //TODO: Try catch should only be for the method, not the logging in the main menu
-    static void Main()
+    //TODO: Constants for second menu panel
+    //TODO: Press key to exit
+    //TODO: Interface for logging
+    //TODO: Interface for options
+    //TODO:Implement welcome message
+
+    private static void Main()
     {
         #region I/O Settings
 
@@ -41,17 +46,14 @@ public class Program
 
         #region Welcome Message
 
-        //TODO:Implement welcome message
-
         #endregion
 
         DATA.DbInitializer.Initialize();
-
-        //TODO: Change the logger type to the desired one
+        
         //L_INTERFACES.ILogger logger = new LOGGERS.TextLogger("../../../log.txt");
+
         L_INTERFACES.ILogger logger = new LOGGERS.ExcelLogger("../../../log.xlsx");
 
-        //TODO: Configure options
         var isDatabaseCreated = COMMON.SchoolOptions.IsDatabaseCreated;
 
         if (!isDatabaseCreated)
@@ -99,6 +101,7 @@ public class Program
             try
             {
                 logger.Log(II_MESSAGES.ClassroomsMessage);
+                
                 createService.CreateClassrooms();
             }
             catch (Exception ex)
@@ -158,6 +161,7 @@ public class Program
             try
             {
                 logger.Log(II_MESSAGES.StudentsParentsMessage);
+                
                 createService.CreateStudentsParents();
             }
             catch (Exception ex)
@@ -174,6 +178,7 @@ public class Program
             #region Menu Panel
 
             Console.Clear();
+            
             Console.WriteLine(MI_MESSAGES.HeaderMessage);
             Console.WriteLine(MI_MESSAGES.ParentsOptionMessage);
             Console.WriteLine(MI_MESSAGES.SubjectsOptionMessage);
@@ -216,22 +221,22 @@ public class Program
                             
                         #region Parameters
                         
-                        string parentCode = HELPERS.ValidationHelper.GetValidatedInput(
+                        var parentCode = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: P_MESSAGES.CodeInfoMessage,
                             errorMessage: P_MESSAGES.CodeErrorMessage,
                             logger: logger);
                             
-                        string fullName = HELPERS.ValidationHelper.GetValidatedInput(
+                        var fullName = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: P_MESSAGES.FullNameInfoMessage,
                             errorMessage: P_MESSAGES.FullNameErrorMessage,
                             logger: logger);
                             
-                        string phone = HELPERS.ValidationHelper.GetValidatedInput(
+                        var phone = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: P_MESSAGES.PhoneInfoMessage,
                             errorMessage: P_MESSAGES.PhoneErrorMessage,
                             logger: logger);
                             
-                        string email = HELPERS.ValidationHelper.GetValidatedInput(
+                        var email = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: P_MESSAGES.EmailInfoMessage,
                             errorMessage: P_MESSAGES.EmailErrorMessage,
                             logger: logger);
@@ -245,17 +250,18 @@ public class Program
                                 fullName: fullName,
                                 phone: phone,
                                 email: email);
-
-                            Console.WriteLine(P_MESSAGES.EndMessage);
-                            logger.Log(P_MESSAGES.EndMessage);
-
-                            Console.ReadLine();
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(PE_MESSAGES.ParentsMessage + ex.Message);
                             logger.Log(PE_MESSAGES.ParentsMessage + ex.Message);
                         }
+                        
+                        Console.WriteLine(P_MESSAGES.EndMessage);
+                        logger.Log(P_MESSAGES.EndMessage);
+
+                        Console.ReadLine();
+                        
                         break;
                     }
                 case "2":
@@ -273,12 +279,12 @@ public class Program
                         
                         #region Parameters 
                         
-                        string title = HELPERS.ValidationHelper.GetValidatedInput(
+                        var title = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: SJ_MESSAGES.TitleInfoMessage,
                             errorMessage: SJ_MESSAGES.TitleErrorMessage,
                             logger: logger);
                             
-                        string level = HELPERS.ValidationHelper.GetValidatedInput(
+                        var level = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: SJ_MESSAGES.TitleInfoMessage,
                             errorMessage: SJ_MESSAGES.LevelErrorMessage,
                             logger: logger);
@@ -290,17 +296,18 @@ public class Program
                             populateService.PopulateSubjects(
                                 title: title,
                                 level: level);
-
-                            Console.WriteLine(SJ_MESSAGES.EndMessage);
-                            logger.Log(SJ_MESSAGES.EndMessage);
-
-                            Console.ReadLine();
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(PE_MESSAGES.SubjectsMessage + ex.Message);
                             logger.Log(PE_MESSAGES.SubjectsMessage + ex.Message);
                         }
+                        
+                        Console.WriteLine(SJ_MESSAGES.EndMessage);
+                        logger.Log(SJ_MESSAGES.EndMessage);
+
+                        Console.ReadLine();
+                        
                         break;
                     }
                 case "3":
@@ -318,32 +325,30 @@ public class Program
                         
                         #region Parameters
 
-                        string teacherCode = HELPERS.ValidationHelper.GetValidatedInput(
+                        var teacherCode = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: T_MESSAGES.CodeInfoMessage,
                             errorMessage: T_MESSAGES.CodeErrorMessage, 
                             logger: logger);
                             
-                        string fullName = HELPERS.ValidationHelper.GetValidatedInput(
+                        var fullName = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: T_MESSAGES.FullNameInfoMessage,
                             errorMessage: T_MESSAGES.FullNameErrorMessage,
                             logger: logger);
                             
-                        string email = HELPERS.ValidationHelper.GetValidatedInput(
+                        var email = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: T_MESSAGES.EmailInfoMessage,
                             errorMessage: T_MESSAGES.EmailErrorMessage,
                             logger: logger);
 
-                        string phone = HELPERS.ValidationHelper.GetValidatedInput(
+                        var phone = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: T_MESSAGES.EmailInfoMessage,
                             errorMessage: T_MESSAGES.EmailErrorMessage,
                             logger: logger);
                             
-                        string workingDaysAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var workingDays = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: T_MESSAGES.WorkingDaysInfoMessage,
                             errorMessage: T_MESSAGES.WorkingDaysErrorMessage,
                             logger: logger);
-
-                        int workingDays = int.Parse(workingDaysAsString);
                             
                         string? dateOfBirth = HELPERS.ValidationHelper.GetNotValidatedInput(
                             infoMessage: T_MESSAGES.DateOfBirthInfoMessage,
@@ -365,17 +370,18 @@ public class Program
                                 workingDays: workingDays,
                                 dateOfBirth: dateOfBirth,
                                 gender: gender);
-
-                            Console.WriteLine(T_MESSAGES.EndMessage);
-                            logger.Log(T_MESSAGES.EndMessage);
-
-                            Console.ReadLine();
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(PE_MESSAGES.TeachersMessage + ex.Message);
                             logger.Log(PE_MESSAGES.TeachersMessage + ex.Message);
                         }
+                        
+                        Console.WriteLine(T_MESSAGES.EndMessage);
+                        logger.Log(T_MESSAGES.EndMessage);
+
+                        Console.ReadLine();
+                        
                         break;
                     }
                 case "4":
@@ -393,21 +399,17 @@ public class Program
 
                         #region Parameters
                         
-                        string floorAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var floor = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: CR_MESSAGES.FloorInfoMessage,
                             errorMessage: CR_MESSAGES.FloorErrorMessage, 
                             logger: logger);
-
-                        int floor = int.Parse(floorAsString);
                             
-                        string capacityAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var capacity = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: CR_MESSAGES.CapacityInfoMessage,
                             errorMessage: CR_MESSAGES.CapacityErrorMessage, 
                             logger: logger);
 
-                        int capacity = int.Parse(capacityAsString);
-
-                        string description = HELPERS.ValidationHelper.GetValidatedInput(
+                        var description = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: CR_MESSAGES.DescriptionInfoMessage,
                             errorMessage: CR_MESSAGES.DescriptionErrorMessage, 
                             logger: logger);
@@ -420,17 +422,18 @@ public class Program
                                 floor: floor,
                                 capacity: capacity,
                                 description: description);
-
-                            Console.WriteLine(CR_MESSAGES.EndMessage);
-                            logger.Log(T_MESSAGES.EndMessage);
-
-                            Console.ReadLine();
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(PE_MESSAGES.ClassroomsMessage + ex.Message);
                             logger.Log(PE_MESSAGES.ClassroomsMessage + ex.Message);
                         }
+                        
+                        Console.WriteLine(CR_MESSAGES.EndMessage);
+                        logger.Log(T_MESSAGES.EndMessage);
+
+                        Console.ReadLine();
+                        
                         break;
                     }
                 case "5":
@@ -448,33 +451,25 @@ public class Program
 
                         #region Parameters
                         
-                        string classNumberAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var classNumber = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: C_MESSAGES.NumberInfoMessage,
                             errorMessage: C_MESSAGES.NumberErrorMessage, 
                             logger: logger);
 
-                        int classNumber = int.Parse(classNumberAsString);
-
-                        string classLetterAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var classLetter = HELPERS.ValidationHelper.GetValidatedInput<char>(
                             infoMessage: C_MESSAGES.LetterInfoMessage,
                             errorMessage: C_MESSAGES.LetterErrorMessage, 
                             logger: logger);
 
-                        char classLetter = char.Parse(classLetterAsString);
-
-                        string classTeacherIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var classTeacherId = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: C_MESSAGES.TeacherIdInfoMessage,
                             errorMessage: C_MESSAGES.TeacherIdErrorMessage, 
                             logger: logger);
 
-                        int classTeacherId = int.Parse(classTeacherIdAsString);
-
-                        string classroomIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var classroomId = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: C_MESSAGES.ClassroomIdInfoMessage,
                             errorMessage: C_MESSAGES.ClassroomIdErrorMessage, 
                             logger: logger);
-
-                        int classroomId = int.Parse(classroomIdAsString);
                         
                         #endregion
                         
@@ -485,17 +480,18 @@ public class Program
                                 classLetter: classLetter,
                                 classTeacherId: classTeacherId,
                                 classroomId: classroomId);
-
-                            Console.WriteLine(C_MESSAGES.EndMessage);
-                            logger.Log(C_MESSAGES.EndMessage);
-
-                            Console.ReadLine();
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(PE_MESSAGES.ClassesMessage + ex.Message);
                             logger.Log(PE_MESSAGES.ClassesMessage + ex.Message);
                         }
+                        
+                        Console.WriteLine(C_MESSAGES.EndMessage);
+                        logger.Log(C_MESSAGES.EndMessage);
+
+                        Console.ReadLine();
+                        
                         break;
                     }
                 case "6":
@@ -513,39 +509,35 @@ public class Program
                         
                         #region Parameters
                         
-                        string studentCode = HELPERS.ValidationHelper.GetValidatedInput(
+                        var studentCode = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: S_MESSAGES.CodeInfoMessage,
                             errorMessage: S_MESSAGES.CodeErrorMessage, 
                             logger: logger);
                             
-                        string fullName = HELPERS.ValidationHelper.GetValidatedInput(
+                        var fullName = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: S_MESSAGES.FullNameInfoMessage,
                             errorMessage: S_MESSAGES.FullNameErrorMessage, 
                             logger: logger);
                             
-                        string email = HELPERS.ValidationHelper.GetValidatedInput(
+                        var email = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: S_MESSAGES.EmailInfoMessage,
                             errorMessage: S_MESSAGES.EmailErrorMessage, 
                             logger: logger);
                             
-                        string phone = HELPERS.ValidationHelper.GetValidatedInput(
+                        var phone = HELPERS.ValidationHelper.GetValidatedInput<string>(
                             infoMessage: S_MESSAGES.PhoneInfoMessage,
                             errorMessage: S_MESSAGES.PhoneErrorMessage, 
                             logger: logger);
 
-                        string classIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var classId = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: S_MESSAGES.ClassIdInfoMessage,
                             errorMessage: S_MESSAGES.ClassIdErrorMessage, 
                             logger: logger);
 
-                        int classId = int.Parse(classIdAsString);
-
-                        string isActiveAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var isActive = HELPERS.ValidationHelper.GetValidatedInput<bool>(
                             infoMessage: S_MESSAGES.IsActiveInfoMessage,
                             errorMessage: S_MESSAGES.IsActiveErrorMessage, 
                             logger: logger);
-
-                        bool isActive = isActiveAsString == "1";
                             
                         string? gender = HELPERS.ValidationHelper.GetNotValidatedInput(
                             infoMessage: S_MESSAGES.GenderInfoMessage,
@@ -568,17 +560,18 @@ public class Program
                                 isActive: isActive,
                                 gender: gender,
                                 dateOfBirth: dateOfBirth);
-
-                            Console.WriteLine(S_MESSAGES.EndMessage);
-                            logger.Log(C_MESSAGES.EndMessage);
-
-                            Console.ReadLine();
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(PE_MESSAGES.StudentsMessage + ex.Message);
                             logger.Log(PE_MESSAGES.StudentsMessage + ex.Message);
                         }
+                        
+                        Console.WriteLine(S_MESSAGES.EndMessage);
+                        logger.Log(C_MESSAGES.EndMessage);
+
+                        Console.ReadLine();
+                        
                         break;
                     }
                 case "7":
@@ -596,19 +589,15 @@ public class Program
 
                         #region Parameters
                         
-                        string teacherIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var teacherId = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: TSJ_MESSAGES.TeacherIdInfoMessage,
                             errorMessage: TSJ_MESSAGES.TeacherIdErrorMessage, 
                             logger: logger);
 
-                        int teacherId = int.Parse(teacherIdAsString);
-
-                        string subjectIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var subjectId = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: TSJ_MESSAGES.SubjectIdInfoMessage,
                             errorMessage: TSJ_MESSAGES.SubjectIdErrorMessage, 
                             logger: logger);
-
-                        int subjectId = int.Parse(subjectIdAsString);
                         
                         #endregion
                             
@@ -617,17 +606,18 @@ public class Program
                             populateService.PopulateTeachersSubjects(
                                 teacherId: teacherId,
                                 subjectId: subjectId);
-
-                            Console.WriteLine(TSJ_MESSAGES.EndMessage);
-                            logger.Log(C_MESSAGES.EndMessage);
-
-                            Console.ReadLine();
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(PE_MESSAGES.TeachersSubjectsMessage + ex.Message);
                             logger.Log(PE_MESSAGES.TeachersSubjectsMessage + ex.Message);
                         }
+                        
+                        Console.WriteLine(TSJ_MESSAGES.EndMessage);
+                        logger.Log(C_MESSAGES.EndMessage);
+
+                        Console.ReadLine();
+                        
                         break;
                     }
                 case "8":
@@ -645,19 +635,15 @@ public class Program
 
                         #region Parameters
                         
-                        string classIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var classId = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: CSJ_MESSAGES.ClassIdInfoMessage,
                             errorMessage: CSJ_MESSAGES.ClassIdErrorMessage, 
                             logger: logger);
 
-                        int classId = int.Parse(classIdAsString);
-
-                        string subjectIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var subjectId = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: CSJ_MESSAGES.SubjectIdInfoMessage,
                             errorMessage: CSJ_MESSAGES.SubjectIdErrorMessage, 
                             logger: logger);
-
-                        int subjectId = int.Parse(subjectIdAsString);
                         
                         #endregion
                         
@@ -666,17 +652,18 @@ public class Program
                             populateService.PopulateClassesSubjects(
                                 classId: classId,
                                 subjectId: subjectId);
-
-                            Console.WriteLine(CSJ_MESSAGES.EndMessage);
-                            logger.Log(C_MESSAGES.EndMessage);
-
-                            Console.ReadLine();
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(PE_MESSAGES.ClassesSubjectsMessage + ex.Message);
                             logger.Log(PE_MESSAGES.ClassesSubjectsMessage + ex.Message);
                         }
+                        
+                        Console.WriteLine(CSJ_MESSAGES.EndMessage);
+                        logger.Log(C_MESSAGES.EndMessage);
+
+                        Console.ReadLine();
+                        
                         break;
                     }
                 case "9":
@@ -694,19 +681,15 @@ public class Program
                         
                         #region Parameters
                             
-                        string studentIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var studentId = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: SP_MESSAGES.StudentIdInfoMessage,
                             errorMessage: SP_MESSAGES.StudentIdErrorMessage, 
                             logger: logger);
 
-                        int studentId = int.Parse(studentIdAsString);
-
-                        string parentIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                        var parentId = HELPERS.ValidationHelper.GetValidatedInput<int>(
                             infoMessage: SP_MESSAGES.ParentIdInfoMessage,
                             errorMessage: SP_MESSAGES.ParentIdErrorMessage, 
                             logger: logger);
-
-                        int parentId = int.Parse(parentIdAsString);
                         
                         #endregion
                         
@@ -715,17 +698,18 @@ public class Program
                             populateService.PopulateStudentsParents(
                                 studentId: studentId,
                                 parentId: parentId);
-
-                            Console.WriteLine(SP_MESSAGES.EndMessage);
-                            logger.Log(C_MESSAGES.EndMessage);
-
-                            Console.ReadLine();
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(PE_MESSAGES.StudentsParentsMessage + ex.Message);
                             logger.Log(PE_MESSAGES.StudentsParentsMessage + ex.Message);
                         }
+                        
+                        Console.WriteLine(SP_MESSAGES.EndMessage);
+                        logger.Log(C_MESSAGES.EndMessage);
+
+                        Console.ReadLine();
+                        
                         break;
                     }
                 case "10":
@@ -735,6 +719,7 @@ public class Program
                             #region Menu Panel
 
                             Console.Clear();
+                            
                             Console.WriteLine("Изведи:");
                             Console.WriteLine("1. Имената на всички ученици от 11б");
                             Console.WriteLine("2. Имената на всички учители и предмета, по който преподава, групирани по предмети");

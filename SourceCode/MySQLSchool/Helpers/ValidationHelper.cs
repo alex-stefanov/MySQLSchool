@@ -6,7 +6,7 @@ namespace MySQLSchool.Helpers;
 //TODO:type of param
 public static class ValidationHelper
 {
-    public static string GetValidatedInput(
+    public static T GetValidatedInput<T>(
         string infoMessage,
         string errorMessage,
         L_INTERFACES.ILogger logger)
@@ -15,15 +15,24 @@ public static class ValidationHelper
         {
             Console.Write(infoMessage);
             var input = Console.ReadLine();
-
+        
             logger.Log(infoMessage + input);
 
-            if (!string.IsNullOrWhiteSpace(input)) 
-                return input;
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                try
+                {
+                    var value = (T)Convert.ChangeType(input, typeof(T));
+                    return value;
+                }
+                catch
+                {
+                    continue;
+                }
+            }
 
             Console.WriteLine(errorMessage);
             logger.Log(errorMessage);
-
         } while (true);
     }
 
@@ -32,10 +41,10 @@ public static class ValidationHelper
         L_INTERFACES.ILogger logger)
     {
         Console.Write(infoMessage);
-        string? dateOfBirth = Console.ReadLine();
+        string? input = Console.ReadLine();
 
-        logger.Log(infoMessage + dateOfBirth);
+        logger.Log(infoMessage + input);
         
-        return dateOfBirth;
+        return input;
     }
 }
