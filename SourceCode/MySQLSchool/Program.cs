@@ -3,6 +3,7 @@ using DATA = MySQLSchool.Data;
 using INTERFACES = MySQLSchool.Infrastructure.Interfaces;
 using IMPLEMENTATIONS = MySQLSchool.Infrastructure.Implementation;
 using LOGGERS = MySQLSchool.Logging.Loggers;
+using HELPERS = MySQLSchool.Helpers;
 using L_INTERFACES = MySQLSchool.Logging.Interfaces;
 using P_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.ParentsMessages;
 using SJ_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.SubjectsMessages;
@@ -13,7 +14,6 @@ using S_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.StudentsMessages
 using TSJ_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.TeachersSubjectsMessages;
 using CSJ_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.ClassesSubjectsMessages;
 using SP_MESSAGES = MySQLSchool.Common.Messages.PopulateMessages.StudentsParentsMessages;
-using IT_QUERIES = MySQLSchool.Common.Queries.InsertTableQueries;
 using II_MESSAGES = MySQLSchool.Common.Messages.InitializersMessages.InfoMessages;
 using IE_MESSAGES = MySQLSchool.Common.Messages.InitializersMessages.ErrorMessages;
 using MI_MESSAGES = MySQLSchool.Common.Messages.MenuMessages.MainPanelMessages.InfoMessages;
@@ -26,8 +26,10 @@ namespace MySQLSchool;
 public class Program
 {
     //TODO: Add suggestions
-    //TODO:Validation
-    //TODO:XML boc boc
+    //TODO: Validation
+    //TODO: XML boc boc
+    //TODO: Add try catches to second menu
+    //TODO: Try catch should only be for the method, not the logging in the main menu
     static void Main()
     {
         #region I/O Settings
@@ -201,73 +203,43 @@ public class Program
             {
                 case "1":
                     {
+                        #region Log
+                        
+                        logger.Log(PI_MESSAGES.ParentsMessage);
+
+                        Console.Clear();
+
+                        Console.WriteLine(P_MESSAGES.StartMessage);
+                        logger.Log(P_MESSAGES.StartMessage);
+                        
+                        #endregion
+                            
+                        #region Parameters
+                        
+                        string parentCode = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: P_MESSAGES.CodeInfoMessage,
+                            errorMessage: P_MESSAGES.CodeErrorMessage,
+                            logger: logger);
+                            
+                        string fullName = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: P_MESSAGES.FullNameInfoMessage,
+                            errorMessage: P_MESSAGES.FullNameErrorMessage,
+                            logger: logger);
+                            
+                        string phone = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: P_MESSAGES.PhoneInfoMessage,
+                            errorMessage: P_MESSAGES.PhoneErrorMessage,
+                            logger: logger);
+                            
+                        string email = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: P_MESSAGES.EmailInfoMessage,
+                            errorMessage: P_MESSAGES.EmailErrorMessage,
+                            logger: logger);
+                        
+                        #endregion
+                        
                         try
                         {
-                            logger.Log(PI_MESSAGES.ParentsMessage);
-
-                            Console.Clear();
-
-                            Console.WriteLine(P_MESSAGES.StartMessage);
-                            logger.Log(P_MESSAGES.StartMessage);
-
-                            string? parentCode, fullName, phone, email;
-
-                            do
-                            {
-                                Console.Write(P_MESSAGES.CodeInfoMessage);
-                                parentCode = Console.ReadLine();
-
-                                logger.Log(P_MESSAGES.CodeInfoMessage + parentCode);
-
-                                if (!string.IsNullOrWhiteSpace(parentCode)) continue;
-
-                                Console.Write(P_MESSAGES.CodeErrorMessage);
-                                logger.Log(P_MESSAGES.CodeErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(parentCode));
-
-                            do
-                            {
-                                Console.Write(P_MESSAGES.FullNameInfoMessage);
-                                fullName = Console.ReadLine();
-
-                                logger.Log(P_MESSAGES.FullNameInfoMessage + fullName);
-
-                                if (!string.IsNullOrWhiteSpace(fullName)) continue;
-
-                                Console.WriteLine(P_MESSAGES.FullNameErrorMessage);
-                                logger.Log(P_MESSAGES.FullNameErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(fullName));
-
-                            do
-                            {
-                                Console.Write(P_MESSAGES.PhoneInfoMessage);
-                                phone = Console.ReadLine();
-
-                                logger.Log(P_MESSAGES.PhoneInfoMessage + phone);
-
-                                if (!string.IsNullOrWhiteSpace(phone)) continue;
-
-                                Console.WriteLine(P_MESSAGES.PhoneErrorMessage);
-                                logger.Log(P_MESSAGES.PhoneErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(phone));
-
-                            do
-                            {
-                                Console.Write(P_MESSAGES.EmailInfoMessage);
-                                email = Console.ReadLine();
-
-                                logger.Log(P_MESSAGES.EmailInfoMessage + email);
-
-                                if (!string.IsNullOrWhiteSpace(email)) continue;
-
-                                Console.WriteLine(P_MESSAGES.EmailErrorMessage);
-                                logger.Log(P_MESSAGES.EmailErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(email));
-
                             populateService.PopulateParents(
                                 parentCode: parentCode,
                                 fullName: fullName,
@@ -288,46 +260,33 @@ public class Program
                     }
                 case "2":
                     {
+                        #region Log
+                        
+                        logger.Log(PI_MESSAGES.SubjectsMessage);
+
+                        Console.Clear();
+
+                        Console.WriteLine(SJ_MESSAGES.StartMessage);
+                        logger.Log(SJ_MESSAGES.StartMessage);
+                        
+                        #endregion
+                        
+                        #region Parameters 
+                        
+                        string title = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: SJ_MESSAGES.TitleInfoMessage,
+                            errorMessage: SJ_MESSAGES.TitleErrorMessage,
+                            logger: logger);
+                            
+                        string level = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: SJ_MESSAGES.TitleInfoMessage,
+                            errorMessage: SJ_MESSAGES.LevelErrorMessage,
+                            logger: logger);
+                        
+                        #endregion
+                        
                         try
                         {
-                            logger.Log(PI_MESSAGES.SubjectsMessage);
-
-                            Console.Clear();
-
-                            Console.WriteLine(SJ_MESSAGES.StartMessage);
-                            logger.Log(SJ_MESSAGES.StartMessage);
-
-                            string? title;
-                            string? level;
-
-                            do
-                            {
-                                Console.Write(SJ_MESSAGES.TitleInfoMessage);
-                                title = Console.ReadLine();
-
-                                logger.Log(SJ_MESSAGES.TitleInfoMessage + title);
-
-                                if (!string.IsNullOrWhiteSpace(title)) continue;
-
-                                Console.WriteLine(SJ_MESSAGES.TitleErrorMessage);
-                                logger.Log(SJ_MESSAGES.TitleErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(title));
-
-                            do
-                            {
-                                Console.Write(SJ_MESSAGES.LevelInfoMessage);
-                                level = Console.ReadLine();
-
-                                logger.Log(SJ_MESSAGES.LevelInfoMessage + level);
-
-                                if (!string.IsNullOrWhiteSpace(level)) continue;
-
-                                Console.WriteLine(SJ_MESSAGES.LevelErrorMessage);
-                                logger.Log(SJ_MESSAGES.LevelErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(level));
-
                             populateService.PopulateSubjects(
                                 title: title,
                                 level: level);
@@ -346,101 +305,58 @@ public class Program
                     }
                 case "3":
                     {
+                        #region Log
+                        
+                        logger.Log(PI_MESSAGES.TeachersMessage);
+                            
+                        Console.Clear();
+
+                        Console.WriteLine(T_MESSAGES.StartMessage);
+                        logger.Log(T_MESSAGES.StartMessage);
+                        
+                        #endregion
+                        
+                        #region Parameters
+
+                        string teacherCode = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: T_MESSAGES.CodeInfoMessage,
+                            errorMessage: T_MESSAGES.CodeErrorMessage, 
+                            logger: logger);
+                            
+                        string fullName = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: T_MESSAGES.FullNameInfoMessage,
+                            errorMessage: T_MESSAGES.FullNameErrorMessage,
+                            logger: logger);
+                            
+                        string email = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: T_MESSAGES.EmailInfoMessage,
+                            errorMessage: T_MESSAGES.EmailErrorMessage,
+                            logger: logger);
+
+                        string phone = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: T_MESSAGES.EmailInfoMessage,
+                            errorMessage: T_MESSAGES.EmailErrorMessage,
+                            logger: logger);
+                            
+                        string workingDaysAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: T_MESSAGES.WorkingDaysInfoMessage,
+                            errorMessage: T_MESSAGES.WorkingDaysErrorMessage,
+                            logger: logger);
+
+                        int workingDays = int.Parse(workingDaysAsString);
+                            
+                        string? dateOfBirth = HELPERS.ValidationHelper.GetNotValidatedInput(
+                            infoMessage: T_MESSAGES.DateOfBirthInfoMessage,
+                            logger: logger);
+
+                        string? gender = HELPERS.ValidationHelper.GetNotValidatedInput(
+                            infoMessage: T_MESSAGES.GenderInfoMessage,
+                            logger: logger);
+                            
+                        #endregion
+                        
                         try
                         {
-                            Console.Clear();
-
-                            Console.WriteLine(T_MESSAGES.StartMessage);
-                            logger.Log(T_MESSAGES.StartMessage);
-
-                            string? teacherCode, fullName, email, phone, workingDaysAsString, dateOfBirth, gender;
-
-                            int workingDays;
-
-                            do
-                            {
-                                Console.Write(T_MESSAGES.CodeInfoMessage);
-                                teacherCode = Console.ReadLine();
-
-                                logger.Log(T_MESSAGES.CodeInfoMessage + teacherCode);
-
-                                if (!string.IsNullOrWhiteSpace(teacherCode)) continue;
-
-                                Console.WriteLine(T_MESSAGES.CodeErrorMessage);
-                                logger.Log(T_MESSAGES.CodeErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(teacherCode));
-
-                            do
-                            {
-                                Console.Write(T_MESSAGES.FullNameInfoMessage);
-                                fullName = Console.ReadLine();
-
-                                logger.Log(T_MESSAGES.FullNameInfoMessage + fullName);
-
-                                if (!string.IsNullOrWhiteSpace(fullName)) continue;
-
-                                Console.WriteLine(T_MESSAGES.FullNameErrorMessage);
-                                logger.Log(T_MESSAGES.FullNameErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(fullName));
-
-                            do
-                            {
-                                Console.Write(T_MESSAGES.EmailInfoMessage);
-                                email = Console.ReadLine();
-
-                                logger.Log(T_MESSAGES.EmailInfoMessage + email);
-
-                                if (!string.IsNullOrWhiteSpace(email)) continue;
-
-                                Console.WriteLine(T_MESSAGES.EmailErrorMessage);
-                                logger.Log(T_MESSAGES.EmailErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(email));
-
-                            do
-                            {
-                                Console.Write(T_MESSAGES.PhoneInfoMessage);
-                                phone = Console.ReadLine();
-
-                                logger.Log(T_MESSAGES.PhoneInfoMessage + phone);
-
-                                if (!string.IsNullOrWhiteSpace(phone)) continue;
-
-                                Console.WriteLine(T_MESSAGES.PhoneErrorMessage);
-                                logger.Log(T_MESSAGES.PhoneErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(phone));
-
-                            do
-                            {
-                                Console.Write(T_MESSAGES.WorkingDaysInfoMessage);
-                                workingDaysAsString = Console.ReadLine();
-
-                                logger.Log(T_MESSAGES.WorkingDaysInfoMessage + workingDaysAsString);
-
-                                if (!string.IsNullOrWhiteSpace(workingDaysAsString)) continue;
-
-                                Console.WriteLine(T_MESSAGES.WorkingDaysErrorMessage);
-                                logger.Log(T_MESSAGES.WorkingDaysErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(workingDaysAsString));
-
-                            workingDays = int.Parse(workingDaysAsString);
-
-                            Console.Write(T_MESSAGES.DateOfBirthInfoMessage);
-                            dateOfBirth = Console.ReadLine();
-
-                            logger.Log(T_MESSAGES.DateOfBirthInfoMessage + dateOfBirth);
-
-                            Console.Write(T_MESSAGES.GenderInfoMessage);
-                            gender = Console.ReadLine();
-
-                            logger.Log(T_MESSAGES.GenderInfoMessage + gender);
-
-                            logger.Log(PI_MESSAGES.TeachersMessage);
-
                             populateService.PopulateTeachers(
                                 teacherCode: teacherCode,
                                 fullName: fullName,
@@ -464,65 +380,42 @@ public class Program
                     }
                 case "4":
                     {
+                        #region Log
+                        
+                        logger.Log(PI_MESSAGES.ClassroomsMessage);
+
+                        Console.Clear();
+
+                        Console.WriteLine(CR_MESSAGES.StartMessage);
+                        logger.Log(T_MESSAGES.StartMessage);
+                        
+                        #endregion
+
+                        #region Parameters
+                        
+                        string floorAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: CR_MESSAGES.FloorInfoMessage,
+                            errorMessage: CR_MESSAGES.FloorErrorMessage, 
+                            logger: logger);
+
+                        int floor = int.Parse(floorAsString);
+                            
+                        string capacityAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: CR_MESSAGES.CapacityInfoMessage,
+                            errorMessage: CR_MESSAGES.CapacityErrorMessage, 
+                            logger: logger);
+
+                        int capacity = int.Parse(capacityAsString);
+
+                        string description = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: CR_MESSAGES.DescriptionInfoMessage,
+                            errorMessage: CR_MESSAGES.DescriptionErrorMessage, 
+                            logger: logger);
+                        
+                        #endregion
+                        
                         try
                         {
-                            logger.Log(PI_MESSAGES.ClassroomsMessage);
-
-                            Console.Clear();
-
-                            Console.WriteLine(CR_MESSAGES.StartMessage);
-                            logger.Log(T_MESSAGES.StartMessage);
-
-                            string? floorAsString, capacityAsString, description;
-
-                            int floor, capacity;
-
-                            do
-                            {
-                                Console.Write(CR_MESSAGES.FloorInfoMessage);
-                                floorAsString = Console.ReadLine();
-
-                                logger.Log(CR_MESSAGES.FloorInfoMessage + floorAsString);
-
-                                if (!string.IsNullOrWhiteSpace(floorAsString)) continue;
-
-                                Console.WriteLine(CR_MESSAGES.FloorErrorMessage);
-                                logger.Log(CR_MESSAGES.FloorErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(floorAsString));
-
-                            floor = int.Parse(floorAsString);
-
-                            do
-                            {
-                                Console.Write(CR_MESSAGES.CapacityInfoMessage);
-                                capacityAsString = Console.ReadLine();
-
-                                logger.Log(CR_MESSAGES.CapacityInfoMessage + capacityAsString);
-
-                                if (!string.IsNullOrWhiteSpace(capacityAsString)) continue;
-
-                                Console.WriteLine(CR_MESSAGES.CapacityErrorMessage);
-                                logger.Log(CR_MESSAGES.CapacityErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(capacityAsString));
-
-                            capacity = int.Parse(capacityAsString);
-
-                            do
-                            {
-                                Console.Write(CR_MESSAGES.DescriptionInfoMessage);
-                                description = Console.ReadLine();
-
-                                logger.Log(CR_MESSAGES.DescriptionInfoMessage + description);
-
-                                if (!string.IsNullOrWhiteSpace(description)) continue;
-
-                                Console.WriteLine(CR_MESSAGES.DescriptionErrorMessage);
-                                logger.Log(CR_MESSAGES.DescriptionErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(description));
-
                             populateService.PopulateClassrooms(
                                 floor: floor,
                                 capacity: capacity,
@@ -542,85 +435,51 @@ public class Program
                     }
                 case "5":
                     {
+                        #region Log
+                        
+                        logger.Log(PI_MESSAGES.ClassesMessage);
+
+                        Console.Clear();
+
+                        Console.WriteLine(C_MESSAGES.StartMessage);
+                        logger.Log(T_MESSAGES.StartMessage);
+                        
+                        #endregion
+
+                        #region Parameters
+                        
+                        string classNumberAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: C_MESSAGES.NumberInfoMessage,
+                            errorMessage: C_MESSAGES.NumberErrorMessage, 
+                            logger: logger);
+
+                        int classNumber = int.Parse(classNumberAsString);
+
+                        string classLetterAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: C_MESSAGES.LetterInfoMessage,
+                            errorMessage: C_MESSAGES.LetterErrorMessage, 
+                            logger: logger);
+
+                        char classLetter = char.Parse(classLetterAsString);
+
+                        string classTeacherIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: C_MESSAGES.TeacherIdInfoMessage,
+                            errorMessage: C_MESSAGES.TeacherIdErrorMessage, 
+                            logger: logger);
+
+                        int classTeacherId = int.Parse(classTeacherIdAsString);
+
+                        string classroomIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: C_MESSAGES.ClassroomIdInfoMessage,
+                            errorMessage: C_MESSAGES.ClassroomIdErrorMessage, 
+                            logger: logger);
+
+                        int classroomId = int.Parse(classroomIdAsString);
+                        
+                        #endregion
+                        
                         try
                         {
-                            logger.Log(PI_MESSAGES.ClassesMessage);
-
-                            Console.Clear();
-
-                            Console.WriteLine(C_MESSAGES.StartMessage);
-                            logger.Log(T_MESSAGES.StartMessage);
-
-                            string? classNumberAsString, classLetterAsString, classTeacherIdAsString, classroomIdAsString;
-
-                            int classNumber, classTeacherId, classroomId;
-
-                            char classLetter;
-
-                            do
-                            {
-                                Console.Write(C_MESSAGES.NumberInfoMessage);
-                                classNumberAsString = Console.ReadLine();
-
-                                logger.Log(C_MESSAGES.NumberInfoMessage + classNumberAsString);
-
-                                if (!string.IsNullOrWhiteSpace(classNumberAsString)) continue;
-
-                                Console.WriteLine(C_MESSAGES.NumberErrorMessage);
-                                logger.Log(C_MESSAGES.NumberErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(classNumberAsString));
-
-                            classNumber = int.Parse(classNumberAsString);
-
-                            do
-                            {
-                                Console.Write(C_MESSAGES.LetterInfoMessage);
-                                classLetterAsString = Console.ReadLine();
-
-                                logger.Log(C_MESSAGES.LetterInfoMessage + classLetterAsString);
-
-                                if (!string.IsNullOrWhiteSpace(classLetterAsString)) continue;
-
-                                Console.WriteLine(C_MESSAGES.LetterErrorMessage);
-                                logger.Log(C_MESSAGES.LetterErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(classLetterAsString));
-
-                            classLetter = char.Parse(classLetterAsString);
-
-                            do
-                            {
-                                Console.Write(C_MESSAGES.TeacherIdInfoMessage);
-                                classTeacherIdAsString = Console.ReadLine();
-
-                                logger.Log(C_MESSAGES.TeacherIdInfoMessage + classTeacherIdAsString);
-
-                                if (!string.IsNullOrWhiteSpace(classTeacherIdAsString)) continue;
-
-                                Console.WriteLine(C_MESSAGES.TeacherIdErrorMessage);
-                                logger.Log(C_MESSAGES.TeacherIdErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(classTeacherIdAsString));
-
-                            classTeacherId = int.Parse(classTeacherIdAsString);
-
-                            do
-                            {
-                                Console.Write(C_MESSAGES.ClassroomIdInfoMessage);
-                                classroomIdAsString = Console.ReadLine();
-
-                                logger.Log(C_MESSAGES.ClassroomIdInfoMessage + classroomIdAsString);
-
-                                if (!string.IsNullOrWhiteSpace(classroomIdAsString)) continue;
-
-                                Console.WriteLine(C_MESSAGES.ClassroomIdErrorMessage);
-                                logger.Log(C_MESSAGES.ClassroomIdErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(classroomIdAsString));
-
-                            classroomId = int.Parse(classroomIdAsString);
-
                             populateService.PopulateClasses(
                                 classNumber: classNumber,
                                 classLetter: classLetter,
@@ -641,120 +500,65 @@ public class Program
                     }
                 case "6":
                     {
+                        #region Log
+                        
+                        logger.Log(PI_MESSAGES.StudentsMessage);
+
+                        Console.Clear();
+
+                        Console.WriteLine(S_MESSAGES.StartMessage);
+                        logger.Log(T_MESSAGES.StartMessage);
+                            
+                        #endregion
+                        
+                        #region Parameters
+                        
+                        string studentCode = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: S_MESSAGES.CodeInfoMessage,
+                            errorMessage: S_MESSAGES.CodeErrorMessage, 
+                            logger: logger);
+                            
+                        string fullName = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: S_MESSAGES.FullNameInfoMessage,
+                            errorMessage: S_MESSAGES.FullNameErrorMessage, 
+                            logger: logger);
+                            
+                        string email = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: S_MESSAGES.EmailInfoMessage,
+                            errorMessage: S_MESSAGES.EmailErrorMessage, 
+                            logger: logger);
+                            
+                        string phone = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: S_MESSAGES.PhoneInfoMessage,
+                            errorMessage: S_MESSAGES.PhoneErrorMessage, 
+                            logger: logger);
+
+                        string classIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: S_MESSAGES.ClassIdInfoMessage,
+                            errorMessage: S_MESSAGES.ClassIdErrorMessage, 
+                            logger: logger);
+
+                        int classId = int.Parse(classIdAsString);
+
+                        string isActiveAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: S_MESSAGES.IsActiveInfoMessage,
+                            errorMessage: S_MESSAGES.IsActiveErrorMessage, 
+                            logger: logger);
+
+                        bool isActive = isActiveAsString == "1";
+                            
+                        string? gender = HELPERS.ValidationHelper.GetNotValidatedInput(
+                            infoMessage: S_MESSAGES.GenderInfoMessage,
+                            logger: logger);
+                            
+                        string? dateOfBirth = HELPERS.ValidationHelper.GetNotValidatedInput(
+                            infoMessage: S_MESSAGES.DateOfBirthInfoMessage,
+                            logger: logger);
+                            
+                        #endregion
+                            
                         try
                         {
-                            logger.Log(PI_MESSAGES.StudentsMessage);
-
-                            Console.Clear();
-
-                            Console.WriteLine(S_MESSAGES.StartMessage);
-                            logger.Log(T_MESSAGES.StartMessage);
-
-                            string? studentCode, fullName, email, phone, classIdAsString, isActiveAsString, gender, dateOfBirth;
-
-                            int classId;
-
-                            bool isActive;
-
-                            do
-                            {
-                                Console.Write(S_MESSAGES.CodeInfoMessage);
-                                studentCode = Console.ReadLine();
-
-                                logger.Log(S_MESSAGES.CodeInfoMessage + studentCode);
-
-                                if (!string.IsNullOrWhiteSpace(studentCode)) continue;
-
-                                Console.WriteLine(S_MESSAGES.CodeErrorMessage);
-                                logger.Log(S_MESSAGES.CodeErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(studentCode));
-
-                            do
-                            {
-                                Console.Write(S_MESSAGES.FullNameInfoMessage);
-                                fullName = Console.ReadLine();
-
-                                logger.Log(S_MESSAGES.FullNameInfoMessage + fullName);
-
-                                if (!string.IsNullOrWhiteSpace(fullName)) continue;
-
-                                Console.WriteLine(S_MESSAGES.FullNameErrorMessage);
-                                logger.Log(S_MESSAGES.FullNameErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(fullName));
-
-                            do
-                            {
-                                Console.Write(S_MESSAGES.EmailInfoMessage);
-                                email = Console.ReadLine();
-
-                                logger.Log(S_MESSAGES.EmailInfoMessage + email);
-
-                                if (!string.IsNullOrWhiteSpace(email)) continue;
-
-                                Console.WriteLine(S_MESSAGES.EmailErrorMessage);
-                                logger.Log(S_MESSAGES.EmailErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(email));
-
-                            do
-                            {
-                                Console.Write(S_MESSAGES.PhoneInfoMessage);
-                                phone = Console.ReadLine();
-
-                                logger.Log(S_MESSAGES.PhoneInfoMessage + phone);
-
-                                if (!string.IsNullOrWhiteSpace(phone)) continue;
-
-                                Console.WriteLine(S_MESSAGES.PhoneErrorMessage);
-                                logger.Log(S_MESSAGES.PhoneErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(phone));
-
-                            do
-                            {
-                                Console.Write(S_MESSAGES.ClassIdInfoMessage);
-                                classIdAsString = Console.ReadLine();
-
-                                logger.Log(S_MESSAGES.ClassIdInfoMessage + classIdAsString);
-
-                                if (!string.IsNullOrWhiteSpace(classIdAsString)) continue;
-
-                                Console.WriteLine(S_MESSAGES.ClassIdErrorMessage);
-                                logger.Log(S_MESSAGES.ClassIdErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(classIdAsString));
-
-                            classId = int.Parse(classIdAsString);
-
-                            do
-                            {
-                                Console.Write(S_MESSAGES.IsActiveInfoMessage);
-                                isActiveAsString = Console.ReadLine();
-
-                                logger.Log(S_MESSAGES.IsActiveInfoMessage + isActiveAsString);
-
-                                if (!string.IsNullOrWhiteSpace(isActiveAsString)
-                                    && isActiveAsString is "1" or "0") continue;
-
-                                Console.WriteLine(S_MESSAGES.IsActiveErrorMessage);
-                                logger.Log(S_MESSAGES.IsActiveErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(isActiveAsString));
-
-                            isActive = isActiveAsString == "1";
-
-                            Console.Write(S_MESSAGES.GenderInfoMessage);
-                            gender = Console.ReadLine();
-
-                            logger.Log(S_MESSAGES.GenderInfoMessage + gender);
-
-                            Console.Write(S_MESSAGES.DateOfBirthInfoMessage);
-                            dateOfBirth = Console.ReadLine();
-
-                            logger.Log(S_MESSAGES.DateOfBirthInfoMessage + dateOfBirth);
-
                             populateService.PopulateStudents(
                                 studentCode: studentCode,
                                 fullName: fullName,
@@ -779,53 +583,37 @@ public class Program
                     }
                 case "7":
                     {
+                        #region Log
+                        
+                        logger.Log(PI_MESSAGES.TeachersSubjectsMessage);
+
+                        Console.Clear();
+
+                        Console.WriteLine(TSJ_MESSAGES.StartMessage);
+                        logger.Log(TSJ_MESSAGES.StartMessage);
+                        
+                        #endregion
+
+                        #region Parameters
+                        
+                        string teacherIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: TSJ_MESSAGES.TeacherIdInfoMessage,
+                            errorMessage: TSJ_MESSAGES.TeacherIdErrorMessage, 
+                            logger: logger);
+
+                        int teacherId = int.Parse(teacherIdAsString);
+
+                        string subjectIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: TSJ_MESSAGES.SubjectIdInfoMessage,
+                            errorMessage: TSJ_MESSAGES.SubjectIdErrorMessage, 
+                            logger: logger);
+
+                        int subjectId = int.Parse(subjectIdAsString);
+                        
+                        #endregion
+                            
                         try
                         {
-                            logger.Log(PI_MESSAGES.TeachersSubjectsMessage);
-
-                            Console.Clear();
-
-                            Console.WriteLine(TSJ_MESSAGES.StartMessage);
-                            logger.Log(TSJ_MESSAGES.StartMessage);
-
-                            string? teacherIdAsString;
-                            string? subjectIdAsString;
-
-                            int teacherId;
-                            int subjectId;
-
-                            do
-                            {
-                                Console.Write(TSJ_MESSAGES.TeacherIdInfoMessage);
-                                teacherIdAsString = Console.ReadLine();
-
-                                logger.Log(TSJ_MESSAGES.TeacherIdInfoMessage);
-
-                                if (!string.IsNullOrWhiteSpace(teacherIdAsString)) continue;
-
-                                Console.WriteLine(TSJ_MESSAGES.TeacherIdErrorMessage);
-                                logger.Log(TSJ_MESSAGES.TeacherIdErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(teacherIdAsString));
-
-                            teacherId = int.Parse(teacherIdAsString);
-
-                            do
-                            {
-                                Console.Write(TSJ_MESSAGES.SubjectIdInfoMessage);
-                                subjectIdAsString = Console.ReadLine();
-
-                                logger.Log(TSJ_MESSAGES.SubjectIdInfoMessage);
-
-                                if (!string.IsNullOrWhiteSpace(subjectIdAsString)) continue;
-
-                                Console.WriteLine(TSJ_MESSAGES.SubjectIdErrorMessage);
-                                logger.Log(TSJ_MESSAGES.SubjectIdErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(subjectIdAsString));
-
-                            subjectId = int.Parse(subjectIdAsString);
-
                             populateService.PopulateTeachersSubjects(
                                 teacherId: teacherId,
                                 subjectId: subjectId);
@@ -844,53 +632,37 @@ public class Program
                     }
                 case "8":
                     {
+                        #region Log
+                        
+                        logger.Log(PI_MESSAGES.ClassesSubjectsMessage);
+
+                        Console.Clear();
+
+                        Console.WriteLine(CSJ_MESSAGES.StartMessage);
+                        logger.Log(CSJ_MESSAGES.StartMessage);
+                        
+                        #endregion
+
+                        #region Parameters
+                        
+                        string classIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: CSJ_MESSAGES.ClassIdInfoMessage,
+                            errorMessage: CSJ_MESSAGES.ClassIdErrorMessage, 
+                            logger: logger);
+
+                        int classId = int.Parse(classIdAsString);
+
+                        string subjectIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: CSJ_MESSAGES.SubjectIdInfoMessage,
+                            errorMessage: CSJ_MESSAGES.SubjectIdErrorMessage, 
+                            logger: logger);
+
+                        int subjectId = int.Parse(subjectIdAsString);
+                        
+                        #endregion
+                        
                         try
                         {
-                            logger.Log(PI_MESSAGES.ClassesSubjectsMessage);
-
-                            Console.Clear();
-
-                            Console.WriteLine(CSJ_MESSAGES.StartMessage);
-                            logger.Log(CSJ_MESSAGES.StartMessage);
-
-                            string? classIdAsString;
-                            string? subjectIdAsString;
-
-                            int classId;
-                            int subjectId;
-
-                            do
-                            {
-                                Console.Write(CSJ_MESSAGES.ClassIdInfoMessage);
-                                classIdAsString = Console.ReadLine();
-
-                                logger.Log(CSJ_MESSAGES.ClassIdInfoMessage + classIdAsString);
-
-                                if (!string.IsNullOrWhiteSpace(classIdAsString)) continue;
-
-                                Console.WriteLine(CSJ_MESSAGES.ClassIdErrorMessage);
-                                logger.Log(CSJ_MESSAGES.ClassIdErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(classIdAsString));
-
-                            classId = int.Parse(classIdAsString);
-
-                            do
-                            {
-                                Console.Write(CSJ_MESSAGES.SubjectIdInfoMessage);
-                                subjectIdAsString = Console.ReadLine();
-
-                                logger.Log(CSJ_MESSAGES.SubjectIdInfoMessage + subjectIdAsString);
-
-                                if (!string.IsNullOrWhiteSpace(subjectIdAsString)) continue;
-
-                                Console.WriteLine(CSJ_MESSAGES.SubjectIdErrorMessage);
-                                logger.Log(CSJ_MESSAGES.SubjectIdErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(subjectIdAsString));
-
-                            subjectId = int.Parse(subjectIdAsString);
-
                             populateService.PopulateClassesSubjects(
                                 classId: classId,
                                 subjectId: subjectId);
@@ -909,53 +681,37 @@ public class Program
                     }
                 case "9":
                     {
+                        #region Log
+                        
+                        logger.Log(PI_MESSAGES.StudentsParentsMessage);
+
+                        Console.Clear();
+
+                        Console.WriteLine(SP_MESSAGES.StartMessage);
+                        logger.Log(SP_MESSAGES.StartMessage);
+                        
+                        #endregion
+                        
+                        #region Parameters
+                            
+                        string studentIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: SP_MESSAGES.StudentIdInfoMessage,
+                            errorMessage: SP_MESSAGES.StudentIdErrorMessage, 
+                            logger: logger);
+
+                        int studentId = int.Parse(studentIdAsString);
+
+                        string parentIdAsString = HELPERS.ValidationHelper.GetValidatedInput(
+                            infoMessage: SP_MESSAGES.ParentIdInfoMessage,
+                            errorMessage: SP_MESSAGES.ParentIdErrorMessage, 
+                            logger: logger);
+
+                        int parentId = int.Parse(parentIdAsString);
+                        
+                        #endregion
+                        
                         try
                         {
-                            logger.Log(PI_MESSAGES.StudentsParentsMessage);
-
-                            Console.Clear();
-
-                            Console.WriteLine(SP_MESSAGES.StartMessage);
-                            logger.Log(SP_MESSAGES.StartMessage);
-
-                            string? studentIdAsString;
-                            string? parentIdAsString;
-
-                            int studentId;
-                            int parentId;
-
-                            do
-                            {
-                                Console.Write(SP_MESSAGES.StudentIdInfoMessage);
-                                studentIdAsString = Console.ReadLine();
-
-                                logger.Log(SP_MESSAGES.StudentIdInfoMessage + studentIdAsString);
-
-                                if (!string.IsNullOrWhiteSpace(studentIdAsString)) continue;
-
-                                Console.WriteLine(SP_MESSAGES.StudentIdErrorMessage);
-                                logger.Log(SP_MESSAGES.StudentIdErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(studentIdAsString));
-
-                            studentId = int.Parse(studentIdAsString);
-
-                            do
-                            {
-                                Console.Write(SP_MESSAGES.ParentIdInfoMessage);
-                                parentIdAsString = Console.ReadLine();
-
-                                logger.Log(SP_MESSAGES.ParentIdInfoMessage + parentIdAsString);
-
-                                if (!string.IsNullOrWhiteSpace(parentIdAsString)) continue;
-
-                                Console.WriteLine(SP_MESSAGES.ParentIdErrorMessage);
-                                logger.Log(SP_MESSAGES.ParentIdErrorMessage);
-                            }
-                            while (string.IsNullOrWhiteSpace(parentIdAsString));
-
-                            parentId = int.Parse(parentIdAsString);
-
                             populateService.PopulateStudentsParents(
                                 studentId: studentId,
                                 parentId: parentId);
