@@ -33,7 +33,8 @@ public static class Program
     //TODO: Press key to exit
     //TODO: Interface for logging
     //TODO: Interface for options
-    //TODO:Implement welcome message
+    //TODO: Implement welcome message
+    //TODO: Option for Default Insert
 
     private static void Main()
     {
@@ -892,6 +893,7 @@ public static class Program
                     }
             }
 
+            //TODO: Try catch this
             logger.SaveLog();
         }
     }

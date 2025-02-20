@@ -21,7 +21,7 @@ public class PopulateService
         string phone,
         string email)
     {
-        using var command = new MySqlCommand(IT_QUERIES.InsertParentsQuery, Connection);
+        using var command = new MySqlCommand(IT_QUERIES.InsertParents, Connection);
 
         command.Parameters.AddWithValue("@parentCode", parentCode);
         command.Parameters.AddWithValue("@fullName", fullName);
@@ -159,6 +159,50 @@ public class PopulateService
 
         command.Parameters.AddWithValue("@studentId", studentId);
         command.Parameters.AddWithValue("@parentId", parentId);
+
+        return command.ExecuteNonQuery();
+    }
+
+    /// <inheritdoc/>
+    public int PopulateParentsWithDefault()
+        => InternalCommandExecute(IT_QUERIES.InsertDefaultParents);
+
+    /// <inheritdoc/>
+    public int PopulateSubjectsWithDefault()
+        => InternalCommandExecute(IT_QUERIES.InsertDefaultSubjects);
+
+    /// <inheritdoc/>
+    public int PopulateTeachersWithDefault()
+        => InternalCommandExecute(IT_QUERIES.InsertDefaultTeachers);
+
+    /// <inheritdoc/>
+    public int PopulateClassroomsWithDefault()
+        => InternalCommandExecute(IT_QUERIES.InsertDefaultClassrooms);
+
+    /// <inheritdoc/>
+    public int PopulateClassesWithDefault()
+        => InternalCommandExecute(IT_QUERIES.InsertDefaultClasses);
+
+    /// <inheritdoc/>
+    public int PopulateStudentsWithDefault()
+        => InternalCommandExecute(IT_QUERIES.InsertDefaultStudents);
+
+    /// <inheritdoc/>
+    public int PopulateTeachersSubjectsWithDefault()
+        => InternalCommandExecute(IT_QUERIES.InsertDefaultTeachersSubjects);
+
+    /// <inheritdoc/>
+    public int PopulateClassesSubjectsWithDefault()
+        => InternalCommandExecute(IT_QUERIES.InsertDefaultClassesSubjects);
+
+    /// <inheritdoc/>
+    public int PopulateStudentsParentsWithDefault()
+        => InternalCommandExecute(IT_QUERIES.InsertDefaultStudentsParents);
+    
+    private static int InternalCommandExecute(
+        string sqlQuery)
+    {
+        using var command = new MySqlCommand(sqlQuery, Connection);
 
         return command.ExecuteNonQuery();
     }

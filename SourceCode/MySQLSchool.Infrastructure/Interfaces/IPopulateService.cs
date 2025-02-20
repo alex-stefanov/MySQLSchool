@@ -87,4 +87,49 @@ public interface IPopulateService
     int PopulateStudentsParents(
         int studentId,
         int parentId);
+
+    /// <summary>
+    /// Populates the parents data in the system with default values.
+    /// </summary>
+    int PopulateParentsWithDefault();
+
+    /// <summary>
+    /// Populates the subjects data in the system with default values.
+    /// </summary>
+    int PopulateSubjectsWithDefault();
+
+    /// <summary>
+    /// Populates the teachers data in the system with default values.
+    /// </summary>
+    int PopulateTeachersWithDefault();
+
+    /// <summary>
+    /// Populates the classrooms data in the system with default values.
+    /// </summary>
+    int PopulateClassroomsWithDefault();
+
+    /// <summary>
+    /// Populates the classes data in the system with default values.
+    /// </summary>
+    int PopulateClassesWithDefault();
+
+    /// <summary>
+    /// Populates the students data in the system with default values.
+    /// </summary>
+    int PopulateStudentsWithDefault();
+
+    /// <summary>
+    /// Populates the relationships between teachers and subjects in the system with default values.
+    /// </summary>
+    int PopulateTeachersSubjectsWithDefault();
+
+    /// <summary>
+    /// Populates the relationships between classes and subjects in the system with default values.
+    /// </summary>
+    int PopulateClassesSubjectsWithDefault();
+
+    /// <summary>
+    /// Populates the relationships between students and parents in the system with default values.
+    /// </summary>
+    int PopulateStudentsParentsWithDefault();
 }

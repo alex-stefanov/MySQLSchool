@@ -16,41 +16,41 @@ public class CreateService
 
     /// <inheritdoc/>
     public int CreateParents()
-        => InternalCreate(CT_QUERIES.CreateParentsQuery);
+        => InternalCommandExecute(CT_QUERIES.CreateParentsQuery);
 
     /// <inheritdoc/>
     public int CreateSubjects()
-        => InternalCreate(CT_QUERIES.CreateSubjects);
+        => InternalCommandExecute(CT_QUERIES.CreateSubjects);
 
     /// <inheritdoc/>
     public int CreateTeachers()
-        => InternalCreate(CT_QUERIES.CreateTeachers);
+        => InternalCommandExecute(CT_QUERIES.CreateTeachers);
 
     /// <inheritdoc/>
     public int CreateClassrooms()
-        => InternalCreate(CT_QUERIES.CreateClassrooms);
+        => InternalCommandExecute(CT_QUERIES.CreateClassrooms);
 
     /// <inheritdoc/>
     public int CreateClasses()
-        => InternalCreate(CT_QUERIES.CreateClasses);
+        => InternalCommandExecute(CT_QUERIES.CreateClasses);
 
     /// <inheritdoc/>
     public int CreateStudents()
-        => InternalCreate(CT_QUERIES.CreateStudents);
+        => InternalCommandExecute(CT_QUERIES.CreateStudents);
 
     /// <inheritdoc/>
     public int CreateTeachersSubjects()
-        => InternalCreate(CT_QUERIES.CreateTeachersSubjects);
+        => InternalCommandExecute(CT_QUERIES.CreateTeachersSubjects);
 
     /// <inheritdoc/>
     public int CreateClassesSubjects()
-        => InternalCreate(CT_QUERIES.CreateClassesSubjects);
+        => InternalCommandExecute(CT_QUERIES.CreateClassesSubjects);
 
     /// <inheritdoc/>
     public int CreateStudentsParents()
-        => InternalCreate(CT_QUERIES.CreateStudentsParents);
+        => InternalCommandExecute(CT_QUERIES.CreateStudentsParents);
 
-    private static int InternalCreate(
+    private static int InternalCommandExecute(
         string sqlQuery)
     {
         using var command = new MySqlCommand(sqlQuery, Connection);

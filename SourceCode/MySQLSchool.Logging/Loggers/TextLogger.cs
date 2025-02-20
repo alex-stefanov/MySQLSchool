@@ -41,6 +41,7 @@ public class TextLogger (
         }
         catch (Exception ex)
         {
+            //TODO: Remove work with Console here
             Console.WriteLine($"Error saving text log: {ex.Message}");
         }
     }

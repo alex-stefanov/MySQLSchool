@@ -53,6 +53,7 @@ public class ExcelLogger(
         }
         catch (Exception ex)
         {
+            //TODO: Remove work with Console here
             Console.WriteLine($"Error saving Excel log: {ex.Message}");
         }
     }
